@@ -1,7 +1,7 @@
 import { DomainError } from '@domain/core/domain-error';
 import { ValueObject } from '@domain/core/value-object';
-import type { Dinheiro } from '@domain/shared/value-objects/dinheiro.vo';
-import type { Quantidade } from '@domain/shared/value-objects/quantidade.vo';
+import type { Dinheiro } from '@domain/value-objects/dinheiro.vo';
+import type { Quantidade } from '@domain/value-objects/quantidade.vo';
 
 type Props = { pecaId: string; quantidade: Quantidade; precoUnitario: Dinheiro };
 

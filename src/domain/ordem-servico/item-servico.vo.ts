@@ -1,6 +1,6 @@
 import { DomainError } from '@domain/core/domain-error';
 import { ValueObject } from '@domain/core/value-object';
-import type { Dinheiro } from '@domain/shared/value-objects/dinheiro.vo';
+import type { Dinheiro } from '@domain/value-objects/dinheiro.vo';
 
 type Props = { servicoId: string; precoUnitario: Dinheiro };
 

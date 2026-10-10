@@ -1,14 +1,22 @@
 import { DomainError } from '@domain/core/domain-error';
 import { ValueObject } from '@domain/core/value-object';
-import type { Dinheiro } from '@domain/shared/value-objects/dinheiro.vo';
+import type { Dinheiro } from '@domain/value-objects/dinheiro.vo';
 
-
-type Decisao = 'PENDENTE' | 'APROVADO' | 'REJEITADO';
+const DECISOES = ['PENDENTE', 'APROVADO', 'REJEITADO'] as const;
+type Decisao = (typeof DECISOES)[number];
 type Props = { total: Dinheiro; geradoEm: Date; enviado: boolean; decisao: Decisao };
 
 export class Orcamento extends ValueObject<Props> {
   static gerar(total: Dinheiro, geradoEm: Date): Orcamento {
     return new Orcamento({ total, geradoEm, enviado: false, decisao: 'PENDENTE' });
+  }
+
+  /** Reconstrói a partir da persistência, validando a decisão guardada como texto. */
+  static restaurar(dados: Omit<Props, 'decisao'> & { decisao: string }): Orcamento {
+    if (!(DECISOES as readonly string[]).includes(dados.decisao)) {
+      throw new DomainError(`Decisão de orçamento inválida: ${dados.decisao}`);
+    }
+    return new Orcamento({ ...dados, decisao: dados.decisao as Decisao });
   }
 
   get total(): Dinheiro { return this.props.total; }

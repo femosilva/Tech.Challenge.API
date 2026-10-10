@@ -1,5 +1,5 @@
 import { ValueObject } from '@domain/core/value-object';
-import type { StatusOS } from '@domain/shared/value-objects/status-os.vo';
+import type { StatusOS } from '@domain/value-objects/status-os.vo';
 
 type Props = { status: StatusOS; alteradoEm: Date };
 
