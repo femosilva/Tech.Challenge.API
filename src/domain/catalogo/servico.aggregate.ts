@@ -1,6 +1,6 @@
 import { AggregateRoot } from '@domain/core/aggregate-root';
 import { DomainError } from '@domain/core/domain-error';
-import type { Dinheiro } from '@domain/shared/value-objects/dinheiro.vo';
+import type { Dinheiro } from '@domain/value-objects/dinheiro.vo';
 import type { ServicoEvent } from './servico.events';
 
 type Dados = Pick<Servico, 'nome' | 'preco'>;

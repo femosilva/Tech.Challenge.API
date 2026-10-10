@@ -1,6 +1,6 @@
 import { AggregateRoot } from '@domain/core/aggregate-root';
 import { DomainError } from '@domain/core/domain-error';
-import { ehPapel, type Papel } from '@domain/shared/value-objects/papel.vo';
+import { ehPapel, type Papel } from '@domain/value-objects/papel.vo';
 
 type Dados = Pick<Usuario, 'email' | 'senhaHash'> & { papel: string };
 

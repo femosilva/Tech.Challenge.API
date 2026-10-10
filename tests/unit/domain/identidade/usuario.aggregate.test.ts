@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'bun:test';
 import { DomainError } from '@domain/core/domain-error';
 import { Usuario } from '@domain/identidade/usuario.aggregate';
-import { PAPEIS } from '@domain/shared/value-objects/papel.vo';
+import { PAPEIS } from '@domain/value-objects/papel.vo';
 
 const dados = { email: 'admin@oficina.com', senhaHash: '$argon2id$hash', papel: 'ADMINISTRADOR' };
 

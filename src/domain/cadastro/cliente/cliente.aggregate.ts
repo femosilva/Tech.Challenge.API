@@ -1,6 +1,6 @@
 import { AggregateRoot } from "@domain/core/aggregate-root";
 import { DomainError } from "@domain/core/domain-error";
-import { CpfCnpj } from "@domain/shared/value-objects/cpf-cnpj.vo";
+import { CpfCnpj } from "@domain/value-objects/cpf-cnpj.vo";
 import type { ClienteEvent } from "./cliente.events";
 
 type Dados = Pick<Cliente, "nome"> & { documento: string };

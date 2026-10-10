@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { ehPapel, PAPEIS } from '@domain/shared/value-objects/papel.vo';
+import { ehPapel, PAPEIS } from '@domain/value-objects/papel.vo';
 
 describe('Papel', () => {
   it('lista os três papéis do sistema', () => {

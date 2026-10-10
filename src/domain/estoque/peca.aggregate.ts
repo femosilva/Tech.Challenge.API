@@ -1,7 +1,7 @@
 import { AggregateRoot } from '@domain/core/aggregate-root';
 import { DomainError } from '@domain/core/domain-error';
-import type { Dinheiro } from '@domain/shared/value-objects/dinheiro.vo';
-import { Quantidade } from '@domain/shared/value-objects/quantidade.vo';
+import type { Dinheiro } from '@domain/value-objects/dinheiro.vo';
+import { Quantidade } from '@domain/value-objects/quantidade.vo';
 import type { PecaEvent } from './peca.events';
 
 type Dados = Pick<Peca, 'codigo' | 'nome' | 'preco'>;

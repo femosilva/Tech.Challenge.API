@@ -1,5 +1,5 @@
 import { ValueObject } from '@domain/core/value-object';
-import type { Quantidade } from '@domain/shared/value-objects/quantidade.vo';
+import type { Quantidade } from '@domain/value-objects/quantidade.vo';
 
 type Tipo = 'ENTRADA' | 'SAIDA';
 type Props = { tipo: Tipo; quantidade: Quantidade; ocorridaEm: Date };

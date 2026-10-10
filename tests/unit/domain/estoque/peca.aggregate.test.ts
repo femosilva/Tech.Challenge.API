@@ -2,8 +2,8 @@
 import { describe, expect, it } from 'bun:test';
 import { DomainError } from '@domain/core/domain-error';
 import { Peca } from '@domain/estoque/peca.aggregate';
-import { Dinheiro } from '@domain/shared/value-objects/dinheiro.vo';
-import { Quantidade } from '@domain/shared/value-objects/quantidade.vo';
+import { Dinheiro } from '@domain/value-objects/dinheiro.vo';
+import { Quantidade } from '@domain/value-objects/quantidade.vo';
 
 const agora = new Date(2026, 0, 1);
 const preco = Dinheiro.deCentavos(2500);

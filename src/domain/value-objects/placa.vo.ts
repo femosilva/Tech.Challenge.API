@@ -1,6 +1,5 @@
-// cadastro/veiculo/placa.vo.ts
-import { DomainError } from "../../core/domain-error";
-import { ValueObject } from "../../core/value-object";
+import { DomainError } from "@domain/core/domain-error";
+import { ValueObject } from "@domain/core/value-object";
 
 const PADRAO_ANTIGO = /^[A-Z]{3}\d{4}$/;
 const PADRAO_MERCOSUL = /^[A-Z]{3}\d[A-Z]\d{2}$/;

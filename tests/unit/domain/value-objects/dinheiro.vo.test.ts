@@ -1,7 +1,7 @@
 // tests/unit/domain/shared/value-objects/dinheiro.vo.test.ts
 import { describe, expect, it } from 'bun:test';
 import { DomainError } from '@domain/core/domain-error';
-import { Dinheiro } from '@domain/shared/value-objects/dinheiro.vo';
+import { Dinheiro } from '@domain/value-objects/dinheiro.vo';
 
 describe('Dinheiro', () => {
   it('guarda o valor em centavos', () => {

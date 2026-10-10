@@ -1,7 +1,7 @@
 // tests/unit/domain/shared/value-objects/placa.vo.test.ts
 import { describe, expect, it } from 'bun:test';
 import { DomainError } from '@domain/core/domain-error';
-import { Placa } from '@domain/shared/value-objects/placa.vo';
+import { Placa } from '@domain/value-objects/placa.vo';
 
 describe('Placa', () => {
   it.each(['ABC1234', 'abc-1234', 'ABC1D23', 'abc 1d23'])('aceita %p', (entrada) => {

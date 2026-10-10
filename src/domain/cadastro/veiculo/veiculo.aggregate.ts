@@ -2,7 +2,7 @@ import type { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import type { VeiculoEvent } from './veiculo.events';
 import { AggregateRoot } from '@domain/core/aggregate-root';
 import { DomainError } from '@domain/core/domain-error';
-import { Placa } from '@domain/shared/value-objects/placa.vo';
+import { Placa } from '@domain/value-objects/placa.vo';
 
 type Dados = Pick<Veiculo, 'clienteId' | 'marca' | 'modelo' | 'ano'> & { placa: string };
 

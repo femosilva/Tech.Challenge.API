@@ -1,6 +1,5 @@
-// shared/value-objects/cpf-cnpj.vo.ts
-import { DomainError } from "../../core/domain-error";
-import { ValueObject } from "../../core/value-object";
+import { DomainError } from "@domain/core/domain-error";
+import { ValueObject } from "@domain/core/value-object";
 
 const PESOS_CPF_1 = [10, 9, 8, 7, 6, 5, 4, 3, 2];
 const PESOS_CPF_2 = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];

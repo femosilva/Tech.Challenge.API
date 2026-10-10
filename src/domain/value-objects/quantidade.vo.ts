@@ -1,7 +1,5 @@
-// shared/quantidade.vo.ts
-import { DomainError } from "../../core/domain-error";
-import { ValueObject } from "../../core/value-object";
-
+import { DomainError } from "@domain/core/domain-error";
+import { ValueObject } from "@domain/core/value-object";
 /** Quantidade inteira e nunca negativa. */
 export class Quantidade extends ValueObject<{ valor: number }> {
     static de(valor: number): Quantidade {

@@ -1,7 +1,5 @@
-// shared/dinheiro.vo.ts
-import { DomainError } from "../../core/domain-error";
-import { ValueObject } from "../../core/value-object";
-
+import { DomainError } from "@domain/core/domain-error";
+import { ValueObject } from "@domain/core/value-object";
 /** Valor monetário em centavos, para evitar erro de ponto flutuante. */
 export class Dinheiro extends ValueObject<{ centavos: number }> {
     static deCentavos(centavos: number): Dinheiro {

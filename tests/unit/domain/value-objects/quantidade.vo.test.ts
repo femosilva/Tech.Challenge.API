@@ -1,7 +1,7 @@
 // tests/unit/domain/shared/value-objects/quantidade.vo.test.ts
 import { describe, expect, it } from 'bun:test';
 import { DomainError } from '@domain/core/domain-error';
-import { Quantidade } from '@domain/shared/value-objects/quantidade.vo';
+import { Quantidade } from '@domain/value-objects/quantidade.vo';
 
 describe('Quantidade', () => {
   it('aceita inteiros a partir de zero', () => {

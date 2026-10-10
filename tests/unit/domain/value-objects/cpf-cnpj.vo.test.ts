@@ -1,7 +1,7 @@
 // tests/unit/domain/shared/value-objects/cpf-cnpj.vo.test.ts
 import { describe, expect, it } from 'bun:test';
 import { DomainError } from '@domain/core/domain-error';
-import { CpfCnpj } from '@domain/shared/value-objects/cpf-cnpj.vo';
+import { CpfCnpj } from '@domain/value-objects/cpf-cnpj.vo';
 
 describe('CpfCnpj', () => {
   it('aceita CPF com máscara e guarda só os dígitos', () => {

@@ -2,7 +2,7 @@
 import { describe, expect, it } from 'bun:test';
 import { Servico } from '@domain/catalogo/servico.aggregate';
 import { DomainError } from '@domain/core/domain-error';
-import { Dinheiro } from '@domain/shared/value-objects/dinheiro.vo';
+import { Dinheiro } from '@domain/value-objects/dinheiro.vo';
 
 const preco = Dinheiro.deCentavos(12000);
 
