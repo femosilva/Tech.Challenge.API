@@ -1,0 +1,4 @@
+[test]
+coverage = true
+coveragePathIgnorePatterns = ["tests/**"]
+coverageThreshold = { lines = 0.8, functions = 0 }
