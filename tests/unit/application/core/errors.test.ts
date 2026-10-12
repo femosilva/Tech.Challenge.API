@@ -3,7 +3,8 @@ import {
   ApplicationError,
   ConflitoError,
   CredenciaisInvalidasError,
-  NaoEncontradoError,
+    NaoEncontradoError,
+  ReferenciaInvalidaError
 } from '@application/core/erros';
 
 describe('erros de aplicação', () => {
@@ -26,4 +27,10 @@ describe('erros de aplicação', () => {
     expect(erro.message).toBe('Credenciais inválidas');
     expect(erro).toBeInstanceOf(ApplicationError);
   });
+});
+test('ReferenciaInvalidaError leva a mensagem informada', () => {
+  const erro = new ReferenciaInvalidaError('Cliente informado não existe');
+  expect(erro.message).toBe('Cliente informado não existe');
+  expect(erro.name).toBe('ReferenciaInvalidaError');
+  expect(erro).toBeInstanceOf(ApplicationError);
 });
