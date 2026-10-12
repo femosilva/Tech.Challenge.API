@@ -14,6 +14,8 @@ export class NaoEncontradoError extends ApplicationError {
 
 /** Violação de unicidade ou de vínculo, como documento repetido ou cliente com veículos. */
 export class ConflitoError extends ApplicationError {}
+/** O corpo da requisição aponta para algo que não existe ou não combina (ex.: veículo de outro cliente). */
+export class ReferenciaInvalidaError extends ApplicationError { }
 
 export class CredenciaisInvalidasError extends ApplicationError {
   constructor() {
