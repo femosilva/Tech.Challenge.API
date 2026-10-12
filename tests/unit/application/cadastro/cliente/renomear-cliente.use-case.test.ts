@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
-import { RenomearCliente } from '@application/cadastro/renomear-cliente.use-case';
+import { RenomearCliente } from '@application/cadastro/cliente/renomear-cliente.use-case';
 import { NaoEncontradoError } from '@application/core/erros';
 import { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import { DomainError } from '@domain/core/domain-error';
-import { PublicadorEventosEmMemoria } from '../doubles/publicador-eventos-memoria.test';
-import { ClienteRepositorioEmMemoria } from '../doubles/repositorios-em-memoria.test';
+import { PublicadorEventosEmMemoria } from '../../doubles/publicador-eventos-memoria.test';
+import { ClienteRepositorioEmMemoria } from '../../doubles/repositorios-em-memoria.test';
 
 describe('RenomearCliente', () => {
   let clientes: ClienteRepositorioEmMemoria;

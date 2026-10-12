@@ -1,6 +1,6 @@
 import { NaoEncontradoError } from '@application/core/erros';
 import type { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
-import type { ClienteConsultas } from './cliente-consultas.port';
+import type { ClienteConsultas } from '@application/cadastro/cliente/cliente-consultas.port';
 import type { VeiculoConsultas, VeiculoDto } from './veiculo-consultas.port';
 
 export class ListarVeiculosDoCliente {

@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
-import { CadastrarVeiculo } from '@application/cadastro/cadastrar-veiculo.use-case';
+import { CadastrarVeiculo } from '@application/cadastro/veiculo/cadastrar-veiculo.use-case';
 import { ConflitoError, ReferenciaInvalidaError } from '@application/core/erros';
 import { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import { DomainError } from '@domain/core/domain-error';
-import { PublicadorEventosEmMemoria } from '../doubles/publicador-eventos-memoria.test';
-import { ClienteRepositorioEmMemoria, VeiculoRepositorioEmMemoria } from '../doubles/repositorios-em-memoria.test';
+import { PublicadorEventosEmMemoria } from '../../doubles/publicador-eventos-memoria.test';
+import { ClienteRepositorioEmMemoria, VeiculoRepositorioEmMemoria } from '../../doubles/repositorios-em-memoria.test';
 
 describe('CadastrarVeiculo', () => {
   let veiculos: VeiculoRepositorioEmMemoria;

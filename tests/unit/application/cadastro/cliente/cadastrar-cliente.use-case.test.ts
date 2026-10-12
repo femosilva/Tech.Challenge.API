@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
-import { CadastrarCliente } from '@application/cadastro/cadastrar-cliente.use-case';
+import { CadastrarCliente } from '@application/cadastro/cliente/cadastrar-cliente.use-case';
 import { ConflitoError } from '@application/core/erros';
 import { DomainError } from '@domain/core/domain-error';
-import { ClienteRepositorioEmMemoria } from '../doubles/repositorios-em-memoria.test';
-import { PublicadorEventosEmMemoria } from '../doubles/publicador-eventos-memoria.test';
+import { ClienteRepositorioEmMemoria } from '../../doubles/repositorios-em-memoria.test';
+import { PublicadorEventosEmMemoria } from '../../doubles/publicador-eventos-memoria.test';
 
 const CPF = '529.982.247-25';
 const CPF_SEM_MASCARA = '52998224725';

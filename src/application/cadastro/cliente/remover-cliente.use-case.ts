@@ -2,7 +2,7 @@ import { ConflitoError, NaoEncontradoError } from '@application/core/erros';
 import type { OrdemServicoConsultas } from '@application/ordem-servico/ordem-servico-consultas.port';
 import type { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import type { ClienteRepository } from '@domain/cadastro/cliente/cliente.repository';
-import type { VeiculoConsultas } from './veiculo-consultas.port';
+import type { VeiculoConsultas } from '@application/cadastro/veiculo/veiculo-consultas.port';
 
 export class RemoverCliente {
   constructor(

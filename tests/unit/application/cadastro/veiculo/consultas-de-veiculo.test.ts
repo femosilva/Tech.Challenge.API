@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
-import { ListarVeiculos } from '@application/cadastro/listar-veiculos.use-case';
-import { ListarVeiculosDoCliente } from '@application/cadastro/listar-veiculos-do-cliente.use-case';
-import { ObterVeiculo } from '@application/cadastro/obter-veiculo.use-case';
+import { ListarVeiculos } from '@application/cadastro/veiculo/listar-veiculos.use-case';
+import { ListarVeiculosDoCliente } from '@application/cadastro/veiculo/listar-veiculos-do-cliente.use-case';
+import { ObterVeiculo } from '@application/cadastro/veiculo/obter-veiculo.use-case';
 import { NaoEncontradoError } from '@application/core/erros';
 import { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import { Veiculo } from '@domain/cadastro/veiculo/veiculo.aggregate';
-import { ClienteConsultasEmMemoria, VeiculoConsultasEmMemoria } from '../doubles/consultas-em-memoria';
-import { ClienteRepositorioEmMemoria, VeiculoRepositorioEmMemoria } from '../doubles/repositorios-em-memoria.test';
+import { ClienteConsultasEmMemoria, VeiculoConsultasEmMemoria } from '../../doubles/consultas-em-memoria';
+import { ClienteRepositorioEmMemoria, VeiculoRepositorioEmMemoria } from '../../doubles/repositorios-em-memoria.test';
 
 describe('consultas de veículo', () => {
   let clientes: ClienteRepositorioEmMemoria;

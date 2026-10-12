@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
-import { ListarClientes } from '@application/cadastro/listar-clientes.use-case';
-import { ObterCliente } from '@application/cadastro/obter-cliente.use-case';
+import { ListarClientes } from '@application/cadastro/cliente/listar-clientes.use-case';
+import { ObterCliente } from '@application/cadastro/cliente/obter-cliente.use-case';
 import { NaoEncontradoError } from '@application/core/erros';
 import { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
-import { ClienteConsultasEmMemoria } from '../doubles/consultas-em-memoria';
-import { ClienteRepositorioEmMemoria } from '../doubles/repositorios-em-memoria.test';
+import { ClienteConsultasEmMemoria } from '../../doubles/consultas-em-memoria';
+import { ClienteRepositorioEmMemoria } from '../../doubles/repositorios-em-memoria.test';
 
 describe('consultas de cliente', () => {
   let clientes: ClienteRepositorioEmMemoria;

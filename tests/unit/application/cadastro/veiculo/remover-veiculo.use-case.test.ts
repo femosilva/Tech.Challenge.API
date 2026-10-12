@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
-import { RemoverVeiculo } from '@application/cadastro/remover-veiculo.use-case';
+import { RemoverVeiculo } from '@application/cadastro/veiculo/remover-veiculo.use-case';
 import { ConflitoError, NaoEncontradoError } from '@application/core/erros';
 import { Veiculo } from '@domain/cadastro/veiculo/veiculo.aggregate';
 import { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
-import { OrdemServicoConsultasEmMemoria } from '../doubles/consultas-em-memoria';
-import { OrdemServicoRepositorioEmMemoria, VeiculoRepositorioEmMemoria } from '../doubles/repositorios-em-memoria.test';
+import { OrdemServicoConsultasEmMemoria } from '../../doubles/consultas-em-memoria';
+import { OrdemServicoRepositorioEmMemoria, VeiculoRepositorioEmMemoria } from '../../doubles/repositorios-em-memoria.test';
 
 describe('RemoverVeiculo', () => {
   let veiculos: VeiculoRepositorioEmMemoria;

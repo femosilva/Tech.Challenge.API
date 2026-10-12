@@ -1,15 +1,15 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
-import { RemoverCliente } from '@application/cadastro/remover-cliente.use-case';
+import { RemoverCliente } from '@application/cadastro/cliente/remover-cliente.use-case';
 import { ConflitoError, NaoEncontradoError } from '@application/core/erros';
 import { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import { Veiculo } from '@domain/cadastro/veiculo/veiculo.aggregate';
 import { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
-import { OrdemServicoConsultasEmMemoria, VeiculoConsultasEmMemoria } from '../doubles/consultas-em-memoria';
+import { OrdemServicoConsultasEmMemoria, VeiculoConsultasEmMemoria } from '../../doubles/consultas-em-memoria';
 import {
   ClienteRepositorioEmMemoria,
   OrdemServicoRepositorioEmMemoria,
   VeiculoRepositorioEmMemoria,
-} from '../doubles/repositorios-em-memoria.test';
+} from '../../doubles/repositorios-em-memoria.test';
 
 describe('RemoverCliente', () => {
   let clientes: ClienteRepositorioEmMemoria;
