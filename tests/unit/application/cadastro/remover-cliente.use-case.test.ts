@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
-import { RemoverCliente } from '@application/cadastro/remover-cliente';
+import { RemoverCliente } from '@application/cadastro/remover-cliente.use-case';
 import { ConflitoError, NaoEncontradoError } from '@application/core/erros';
 import { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import { Veiculo } from '@domain/cadastro/veiculo/veiculo.aggregate';

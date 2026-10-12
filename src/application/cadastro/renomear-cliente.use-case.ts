@@ -1,5 +1,5 @@
 import { NaoEncontradoError } from '@application/core/erros';
-import type { PublicadorEventos } from '@application/core/publicador-eventos';
+import type { PublicadorEventos } from '@application/core/publicador-eventos.port';
 import type { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import type { ClienteRepository } from '@domain/cadastro/cliente/cliente.repository';
 

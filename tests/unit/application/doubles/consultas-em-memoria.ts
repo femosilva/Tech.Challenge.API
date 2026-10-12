@@ -1,6 +1,6 @@
-import type { ClienteConsultas, ClienteDto } from '@application/cadastro/cliente-consultas';
-import type { VeiculoConsultas } from '@application/cadastro/veiculo-consultas';
-import type { OrdemServicoConsultas } from '@application/ordem-servico/ordem-servico-consultas';
+import type { ClienteConsultas, ClienteDto } from '@application/cadastro/cliente-consultas.port';
+import type { VeiculoConsultas } from '@application/cadastro/veiculo-consultas.port';
+import type { OrdemServicoConsultas } from '@application/ordem-servico/ordem-servico-consultas.port';
 import type { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import type { Veiculo } from '@domain/cadastro/veiculo/veiculo.aggregate';
 import type { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';

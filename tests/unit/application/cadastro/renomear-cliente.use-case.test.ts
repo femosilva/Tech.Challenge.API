@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
-import { RenomearCliente } from '@application/cadastro/renomear-cliente';
+import { RenomearCliente } from '@application/cadastro/renomear-cliente.use-case';
 import { NaoEncontradoError } from '@application/core/erros';
 import { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import { DomainError } from '@domain/core/domain-error';

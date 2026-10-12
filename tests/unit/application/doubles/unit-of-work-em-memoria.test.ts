@@ -1,4 +1,4 @@
-import type { RepositoriosTransacionais, UnitOfWork } from '@application/core/unit-of-work';
+import type { RepositoriosTransacionais, UnitOfWork } from '@application/core/unit-of-work.port';
 import type { OrdemServicoRepositorioEmMemoria, PecaRepositorioEmMemoria } from './repositorios-em-memoria.test';
 
 type Repositorios = { ordens: OrdemServicoRepositorioEmMemoria; pecas: PecaRepositorioEmMemoria };

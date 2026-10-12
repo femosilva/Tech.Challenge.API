@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
-import { CadastrarCliente } from '@application/cadastro/cadastrar-cliente';
+import { CadastrarCliente } from '@application/cadastro/cadastrar-cliente.use-case';
 import { ConflitoError } from '@application/core/erros';
 import { DomainError } from '@domain/core/domain-error';
 import { ClienteRepositorioEmMemoria } from '../doubles/repositorios-em-memoria.test';

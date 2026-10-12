@@ -1,4 +1,4 @@
-import type { ClienteConsultas, ClienteDto } from './cliente-consultas';
+import type { ClienteConsultas, ClienteDto } from './cliente-consultas.port';
 
 export class ListarClientes {
   constructor(private readonly consultas: ClienteConsultas) {}

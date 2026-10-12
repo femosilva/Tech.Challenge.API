@@ -1,6 +1,6 @@
 import { NaoEncontradoError } from '@application/core/erros';
 import type { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
-import type { ClienteConsultas, ClienteDto } from './cliente-consultas';
+import type { ClienteConsultas, ClienteDto } from './cliente-consultas.port';
 
 export class ObterCliente {
   constructor(private readonly consultas: ClienteConsultas) {}
