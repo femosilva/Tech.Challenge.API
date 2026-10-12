@@ -1,13 +1,18 @@
-import type { ClienteConsultas, ClienteDto } from '@application/cadastro/cliente/cliente-consultas.port';
-import type { VeiculoConsultas, VeiculoDto } from '@application/cadastro/veiculo/veiculo-consultas.port';
-import type { OrdemServicoConsultas } from '@application/ordem-servico/ordem-servico-consultas.port';
 import type { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import type { Veiculo } from '@domain/cadastro/veiculo/veiculo.aggregate';
 import type { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
+import type { Servico } from '@domain/catalogo/servico.aggregate';
+
+import type { ClienteConsultas, ClienteDto } from '@application/cadastro/cliente/cliente-consultas.port';
+import type { VeiculoConsultas, VeiculoDto } from '@application/cadastro/veiculo/veiculo-consultas.port';
+import type { OrdemServicoConsultas } from '@application/ordem-servico/ordem-servico-consultas.port';
+import type { ServicoConsultas, ServicoDto } from '@application/catalogo/servico-consultas.port';
+
 import type {
   ClienteRepositorioEmMemoria,
   OrdemServicoRepositorioEmMemoria,
   VeiculoRepositorioEmMemoria,
+  ServicoRepositorioEmMemoria
 } from './repositorios-em-memoria.test';
 
 const paraDto = (c: Cliente): ClienteDto => ({ id: c.id, nome: c.nome, documento: c.documento.numero });
@@ -25,6 +30,7 @@ export class ClienteConsultasEmMemoria implements ClienteConsultas {
     return cliente ? paraDto(cliente) : null;
   }
 }
+
 
 const paraVeiculoDto = (v: Veiculo): VeiculoDto => ({
   id: v.id,
@@ -58,6 +64,21 @@ export class VeiculoConsultasEmMemoria implements VeiculoConsultas {
   }
 }
 
+const paraServicoDto = (s: Servico): ServicoDto => ({ id: s.id, nome: s.nome, precoCentavos: s.preco.centavos });
+
+export class ServicoConsultasEmMemoria implements ServicoConsultas {
+  constructor(private readonly servicos: ServicoRepositorioEmMemoria) {}
+
+  async listar(): Promise<ServicoDto[]> {
+    return this.servicos.todos().map(paraServicoDto);
+  }
+
+  async obter(filtro: Pick<Servico, 'id'>): Promise<ServicoDto | null> {
+    const servico = await this.servicos.buscarPorId(filtro);
+    return servico ? paraServicoDto(servico) : null;
+  }
+}
+
 export class OrdemServicoConsultasEmMemoria implements OrdemServicoConsultas {
   constructor(private readonly ordens: OrdemServicoRepositorioEmMemoria) {}
 
@@ -66,5 +87,8 @@ export class OrdemServicoConsultasEmMemoria implements OrdemServicoConsultas {
   }
   async existePorVeiculo(filtro: Pick<OrdemServico, 'veiculoId'>): Promise<boolean> {
     return this.ordens.todos().some((o) => o.veiculoId === filtro.veiculoId);
+  }
+  async existePorServico(filtro: Pick<Servico, 'id'>): Promise<boolean> {
+    return this.ordens.todos().some((o) => o.itensServico.some((i) => i.servicoId === filtro.id));
   }
 }

@@ -1,14 +1,17 @@
 import type { AggregateRoot } from '@domain/core/aggregate-root';
 import type { Peca } from '@domain/estoque/peca.aggregate';
-import type { PecaRepository } from '@domain/estoque/peca.repository';
 import type { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
-import type { OrdemServicoRepository } from '@domain/ordem-servico/ordem-servico.repository';
 import type { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
-import type { ClienteRepository } from '@domain/cadastro/cliente/cliente.repository';
 import type { Veiculo } from '@domain/cadastro/veiculo/veiculo.aggregate';
-import type { VeiculoRepository } from '@domain/cadastro/veiculo/veiculo.repository';
-import { clonar } from './clonar';
+import type { Servico } from '@domain/catalogo/servico.aggregate';
+import type { ServicoRepository } from '@domain/catalogo/servico.repository';
 
+import type { PecaRepository } from '@domain/estoque/peca.repository';
+import type { OrdemServicoRepository } from '@domain/ordem-servico/ordem-servico.repository';
+import type { ClienteRepository } from '@domain/cadastro/cliente/cliente.repository';
+import type { VeiculoRepository } from '@domain/cadastro/veiculo/veiculo.repository';
+
+import { clonar } from './clonar';
 /**
  * Guarda e devolve cópias, como um banco de verdade: alterar o que foi carregado
  * não muda o que está guardado até chamar salvar.
@@ -73,3 +76,6 @@ export class OrdemServicoRepositorioEmMemoria
       return this.buscarUm((v) => v.placa.equals(filtro.placa));
     }
   }
+  export class ServicoRepositorioEmMemoria
+    extends RepositorioEmMemoria<Servico>
+    implements ServicoRepository {}
