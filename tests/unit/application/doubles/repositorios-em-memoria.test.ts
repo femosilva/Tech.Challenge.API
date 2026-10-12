@@ -3,6 +3,10 @@ import type { Peca } from '@domain/estoque/peca.aggregate';
 import type { PecaRepository } from '@domain/estoque/peca.repository';
 import type { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
 import type { OrdemServicoRepository } from '@domain/ordem-servico/ordem-servico.repository';
+import type { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
+import type { ClienteRepository } from '@domain/cadastro/cliente/cliente.repository';
+import type { Veiculo } from '@domain/cadastro/veiculo/veiculo.aggregate';
+import type { VeiculoRepository } from '@domain/cadastro/veiculo/veiculo.repository';
 import { clonar } from './clonar';
 
 /**
@@ -34,7 +38,9 @@ export abstract class RepositorioEmMemoria<T extends AggregateRoot> {
       this.itens = copia;
     };
   }
-
+  todos(): T[] {
+     return [...this.itens.values()].map(clonar);
+   }
   protected buscarUm(predicado: (item: T) => boolean): T | null {
     for (const item of this.itens.values()) if (predicado(item)) return clonar(item);
     return null;
@@ -50,3 +56,20 @@ export class PecaRepositorioEmMemoria extends RepositorioEmMemoria<Peca> impleme
 export class OrdemServicoRepositorioEmMemoria
   extends RepositorioEmMemoria<OrdemServico>
   implements OrdemServicoRepository {}
+
+  export class ClienteRepositorioEmMemoria
+    extends RepositorioEmMemoria<Cliente>
+    implements ClienteRepository
+  {
+    async buscarPorDocumento(filtro: Pick<Cliente, 'documento'>): Promise<Cliente | null> {
+      return this.buscarUm((c) => c.documento.equals(filtro.documento));
+    }
+  }
+  export class VeiculoRepositorioEmMemoria
+    extends RepositorioEmMemoria<Veiculo>
+    implements VeiculoRepository
+  {
+    async buscarPorPlaca(filtro: Pick<Veiculo, 'placa'>): Promise<Veiculo | null> {
+      return this.buscarUm((v) => v.placa.equals(filtro.placa));
+    }
+  }
