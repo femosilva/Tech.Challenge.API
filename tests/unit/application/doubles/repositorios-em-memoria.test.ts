@@ -4,12 +4,14 @@ import type { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate
 import type { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import type { Veiculo } from '@domain/cadastro/veiculo/veiculo.aggregate';
 import type { Servico } from '@domain/catalogo/servico.aggregate';
-import type { ServicoRepository } from '@domain/catalogo/servico.repository';
+import type { Usuario } from '@domain/identidade/usuario.aggregate';
 
+import type { ServicoRepository } from '@domain/catalogo/servico.repository';
 import type { PecaRepository } from '@domain/estoque/peca.repository';
 import type { OrdemServicoRepository } from '@domain/ordem-servico/ordem-servico.repository';
 import type { ClienteRepository } from '@domain/cadastro/cliente/cliente.repository';
 import type { VeiculoRepository } from '@domain/cadastro/veiculo/veiculo.repository';
+import type { UsuarioRepository } from '@domain/identidade/usuario.repository';
 
 import { clonar } from './clonar';
 /**
@@ -79,3 +81,11 @@ export class OrdemServicoRepositorioEmMemoria
   export class ServicoRepositorioEmMemoria
     extends RepositorioEmMemoria<Servico>
     implements ServicoRepository {}
+    export class UsuarioRepositorioEmMemoria
+      extends RepositorioEmMemoria<Usuario>
+      implements UsuarioRepository
+    {
+      async buscarPorEmail(filtro: Pick<Usuario, 'email'>): Promise<Usuario | null> {
+        return this.buscarUm((u) => u.email === filtro.email);
+      }
+    }
