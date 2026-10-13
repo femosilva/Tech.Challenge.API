@@ -1,3 +1,4 @@
+import type { ClienteRepository } from '@domain/cadastro/cliente/cliente.repository';
 import type { PecaRepository } from '@domain/estoque/peca.repository';
 import type { OrdemServicoRepository } from '@domain/ordem-servico/ordem-servico.repository';
 
@@ -5,6 +6,7 @@ import type { OrdemServicoRepository } from '@domain/ordem-servico/ordem-servico
 export type RepositoriosTransacionais = {
   ordens: OrdemServicoRepository;
   pecas: PecaRepository;
+  clientes: ClienteRepository;
 };
 
 export interface UnitOfWork {

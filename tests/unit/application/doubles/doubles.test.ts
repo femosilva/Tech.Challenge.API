@@ -3,7 +3,11 @@ import { Peca } from '@domain/estoque/peca.aggregate';
 import { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
 import { Dinheiro } from '@domain/value-objects/dinheiro.vo';
 import { Quantidade } from '@domain/value-objects/quantidade.vo';
-import { OrdemServicoRepositorioEmMemoria, PecaRepositorioEmMemoria } from './repositorios-em-memoria.test';
+import {
+  ClienteRepositorioEmMemoria,
+  OrdemServicoRepositorioEmMemoria,
+  PecaRepositorioEmMemoria,
+} from './repositorios-em-memoria.test';
 import { PublicadorEventosEmMemoria } from './publicador-eventos-memoria.test';
 import { UnitOfWorkEmMemoria } from './unit-of-work-em-memoria.test';
 
@@ -16,7 +20,7 @@ describe('doubles em memória', () => {
   beforeEach(async () => {
     pecas = new PecaRepositorioEmMemoria();
     ordens = new OrdemServicoRepositorioEmMemoria();
-    uow = new UnitOfWorkEmMemoria({ ordens, pecas });
+    uow = new UnitOfWorkEmMemoria({ ordens, pecas, clientes: new ClienteRepositorioEmMemoria() });
     peca = Peca.cadastrar({ codigo: 'P1', nome: 'Filtro', preco: Dinheiro.deCentavos(1000), saldo: Quantidade.de(5) });
     await pecas.salvar(peca);
   });
