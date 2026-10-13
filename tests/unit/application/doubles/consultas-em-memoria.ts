@@ -2,17 +2,19 @@ import type { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import type { Veiculo } from '@domain/cadastro/veiculo/veiculo.aggregate';
 import type { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
 import type { Servico } from '@domain/catalogo/servico.aggregate';
+import type { Peca } from '@domain/estoque/peca.aggregate';
 
 import type { ClienteConsultas, ClienteDto } from '@application/cadastro/cliente/cliente-consultas.port';
 import type { VeiculoConsultas, VeiculoDto } from '@application/cadastro/veiculo/veiculo-consultas.port';
 import type { OrdemServicoConsultas } from '@application/ordem-servico/ordem-servico-consultas.port';
 import type { ServicoConsultas, ServicoDto } from '@application/catalogo/servico-consultas.port';
-
+import type { PecaConsultas, PecaDto } from '@application/estoque/peca-consultas.port';
 import type {
   ClienteRepositorioEmMemoria,
   OrdemServicoRepositorioEmMemoria,
   VeiculoRepositorioEmMemoria,
-  ServicoRepositorioEmMemoria
+  ServicoRepositorioEmMemoria,
+  PecaRepositorioEmMemoria
 } from './repositorios-em-memoria.test';
 
 const paraDto = (c: Cliente): ClienteDto => ({ id: c.id, nome: c.nome, documento: c.documento.numero });
@@ -78,7 +80,26 @@ export class ServicoConsultasEmMemoria implements ServicoConsultas {
     return servico ? paraServicoDto(servico) : null;
   }
 }
+const paraPecaDto = (p: Peca): PecaDto => ({
+  id: p.id,
+  codigo: p.codigo,
+  nome: p.nome,
+  precoCentavos: p.preco.centavos,
+  saldo: p.saldo.valor,
+});
 
+export class PecaConsultasEmMemoria implements PecaConsultas {
+  constructor(private readonly pecas: PecaRepositorioEmMemoria) {}
+
+  async listar(): Promise<PecaDto[]> {
+    return this.pecas.todos().map(paraPecaDto);
+  }
+
+  async obter(filtro: Pick<Peca, 'id'>): Promise<PecaDto | null> {
+    const peca = await this.pecas.buscarPorId(filtro);
+    return peca ? paraPecaDto(peca) : null;
+  }
+}
 export class OrdemServicoConsultasEmMemoria implements OrdemServicoConsultas {
   constructor(private readonly ordens: OrdemServicoRepositorioEmMemoria) {}
 
@@ -90,5 +111,8 @@ export class OrdemServicoConsultasEmMemoria implements OrdemServicoConsultas {
   }
   async existePorServico(filtro: Pick<Servico, 'id'>): Promise<boolean> {
     return this.ordens.todos().some((o) => o.itensServico.some((i) => i.servicoId === filtro.id));
+  }
+  async existePorPeca(filtro: Pick<Peca, 'id'>): Promise<boolean> {
+    return this.ordens.todos().some((o) => o.itensPeca.some((i) => i.pecaId === filtro.id));
   }
 }
