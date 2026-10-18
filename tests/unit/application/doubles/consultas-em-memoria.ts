@@ -6,7 +6,14 @@ import type { Peca } from '@domain/estoque/peca.aggregate';
 
 import type { ClienteConsultas, ClienteDto } from '@application/cadastro/cliente/cliente-consultas.port';
 import type { VeiculoConsultas, VeiculoDto } from '@application/cadastro/veiculo/veiculo-consultas.port';
-import type { OrdemServicoConsultas } from '@application/ordem-servico/ordem-servico-consultas.port';
+import type {
+  OrdemServicoConsultas,
+  OrdemServicoDetalheDto,
+  OrdemServicoResumoDto,
+  Pagina,
+  Paginacao,
+  TempoMedioExecucaoDto,
+} from '@application/ordem-servico/ordem-servico-consultas.port';
 import type { ServicoConsultas, ServicoDto } from '@application/catalogo/servico-consultas.port';
 import type { PecaConsultas, PecaDto } from '@application/estoque/peca-consultas.port';
 import type {
@@ -115,4 +122,50 @@ export class OrdemServicoConsultasEmMemoria implements OrdemServicoConsultas {
   async existePorPeca(filtro: Pick<Peca, 'id'>): Promise<boolean> {
     return this.ordens.todos().some((o) => o.itensPeca.some((i) => i.pecaId === filtro.id));
   }
+  async listar({ pagina, tamanho }: Paginacao): Promise<Pagina<OrdemServicoResumoDto>> {
+    const todas = this.ordens
+      .todos()
+      .map(paraResumoDto)
+      .sort((a, b) => b.abertaEm.getTime() - a.abertaEm.getTime());
+    const inicio = (pagina - 1) * tamanho;
+    return { pagina, tamanho, total: todas.length, itens: todas.slice(inicio, inicio + tamanho) };
+  }
+
+  async detalhar(filtro: Pick<OrdemServico, 'id'>): Promise<OrdemServicoDetalheDto | null> {
+    const os = await this.ordens.buscarPorId(filtro);
+    return os ? paraDetalheDto(os) : null;
+  }
+
+  async tempoMedioExecucao(): Promise<TempoMedioExecucaoDto> {
+    const duracoes = this.ordens
+      .todos()
+      .map((o) => o.duracaoExecucaoMs)
+      .filter((d): d is number => d !== undefined);
+    const soma = duracoes.reduce((total, d) => total + d, 0);
+    return { ordensConsideradas: duracoes.length, mediaMs: duracoes.length ? soma / duracoes.length : null };
+  }
 }
+const paraResumoDto = (o: OrdemServico): OrdemServicoResumoDto => ({
+  id: o.id,
+  clienteId: o.clienteId,
+  veiculoId: o.veiculoId,
+  status: o.status.valor,
+  totalCentavos: o.total.centavos,
+  abertaEm: o.historico[0]!.alteradoEm,
+});
+
+const paraDetalheDto = (o: OrdemServico): OrdemServicoDetalheDto => ({
+  ...paraResumoDto(o),
+  itensServico: o.itensServico.map((i) => ({ servicoId: i.servicoId, precoUnitarioCentavos: i.precoUnitario.centavos })),
+  itensPeca: o.itensPeca.map((i) => ({
+    pecaId: i.pecaId,
+    quantidade: i.quantidade.valor,
+    precoUnitarioCentavos: i.precoUnitario.centavos,
+  })),
+  orcamento: o.orcamento
+    ? { totalCentavos: o.orcamento.total.centavos, enviado: o.orcamento.enviado, decisao: o.orcamento.decisao }
+    : null,
+  historico: o.historico.map((r) => ({ status: r.status.valor, alteradoEm: r.alteradoEm })),
+  inicioExecucao: o.inicioExecucao ?? null,
+  fimExecucao: o.fimExecucao ?? null,
+});
