@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
 import { NaoEncontradoError } from '@application/core/erros';
-import { ConsultarAndamento } from '@application/ordem-servico/consultar-andamento.use-case';
-import { DetalharOrdemServico } from '@application/ordem-servico/detalhar-ordem-servico.use-case';
-import { ListarOrdensServico } from '@application/ordem-servico/listar-ordens-servico.use-case';
-import { ObterTempoMedioExecucao } from '@application/ordem-servico/obter-tempo-medio-execucao.use-case';
+import { ConsultarAndamento } from '@application/ordem-servico/acompanhamento/consultar-andamento.use-case';
+import { DetalharOrdemServico } from '@application/ordem-servico/acompanhamento/detalhar-ordem-servico.use-case';
+import { ListarOrdensServico } from '@application/ordem-servico/acompanhamento/listar-ordens-servico.use-case';
+import { ObterTempoMedioExecucao } from '@application/ordem-servico/acompanhamento/obter-tempo-medio-execucao.use-case';
 import { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import { DomainError } from '@domain/core/domain-error';
 import { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
 import { Dinheiro } from '@domain/value-objects/dinheiro.vo';
 import { Quantidade } from '@domain/value-objects/quantidade.vo';
-import { ClienteConsultasEmMemoria, OrdemServicoConsultasEmMemoria } from '../doubles/consultas-em-memoria';
-import { ClienteRepositorioEmMemoria, OrdemServicoRepositorioEmMemoria } from '../doubles/repositorios-em-memoria.test';
+import { ClienteConsultasEmMemoria, OrdemServicoConsultasEmMemoria } from '../../doubles/consultas-em-memoria';
+import { ClienteRepositorioEmMemoria, OrdemServicoRepositorioEmMemoria } from '../../doubles/repositorios-em-memoria.test';
 
 const CPF_MARIA = '529.982.247-25';
 const HORA = 60 * 60 * 1000;

@@ -1,4 +1,4 @@
-import type { OrdemServicoConsultas, OrdemServicoResumoDto, Pagina, Paginacao } from './ordem-servico-consultas.port';
+import type { OrdemServicoConsultas, OrdemServicoResumoDto, Pagina, Paginacao } from '@application/ordem-servico/ordem-servico-consultas.port';
 
 const TAMANHO_PADRAO = 20;
 const TAMANHO_MAXIMO = 100;

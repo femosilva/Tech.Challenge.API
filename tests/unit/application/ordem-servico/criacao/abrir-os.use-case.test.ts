@@ -1,15 +1,15 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
 import { ReferenciaInvalidaError } from '@application/core/erros';
-import { AbrirOS } from '@application/ordem-servico/abrir-os.use-case';
+import { AbrirOS } from '@application/ordem-servico/criacao/abrir-os.use-case';
 import { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import { Veiculo } from '@domain/cadastro/veiculo/veiculo.aggregate';
 import { DomainError } from '@domain/core/domain-error';
-import { PublicadorEventosEmMemoria } from '../doubles/publicador-eventos-memoria.test';
+import { PublicadorEventosEmMemoria } from '../../doubles/publicador-eventos-memoria.test';
 import {
   ClienteRepositorioEmMemoria,
   OrdemServicoRepositorioEmMemoria,
   VeiculoRepositorioEmMemoria,
-} from '../doubles/repositorios-em-memoria.test';
+} from '../../doubles/repositorios-em-memoria.test';
 
 const CPF_MARIA = '529.982.247-25';
 const CNPJ_JOAO = '11.222.333/0001-81';

@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
 import { NaoEncontradoError, ReferenciaInvalidaError } from '@application/core/erros';
-import { IncluirPeca } from '@application/ordem-servico/incluir-peca.use-case';
+import { IncluirPeca } from '@application/ordem-servico/criacao/incluir-peca.use-case';
 import { DomainError } from '@domain/core/domain-error';
 import { Peca } from '@domain/estoque/peca.aggregate';
 import { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
 import { Dinheiro } from '@domain/value-objects/dinheiro.vo';
 import { Quantidade } from '@domain/value-objects/quantidade.vo';
-import { PublicadorEventosEmMemoria } from '../doubles/publicador-eventos-memoria.test';
-import { OrdemServicoRepositorioEmMemoria, PecaRepositorioEmMemoria } from '../doubles/repositorios-em-memoria.test';
+import { PublicadorEventosEmMemoria } from '../../doubles/publicador-eventos-memoria.test';
+import { OrdemServicoRepositorioEmMemoria, PecaRepositorioEmMemoria } from '../../doubles/repositorios-em-memoria.test';
 
 describe('IncluirPeca', () => {
   let ordens: OrdemServicoRepositorioEmMemoria;

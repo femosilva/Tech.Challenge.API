@@ -1,19 +1,19 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
 import { ConflitoError, NaoEncontradoError } from '@application/core/erros';
-import { AprovarOrcamento } from '@application/ordem-servico/aprovar-orcamento.use-case';
+import { AprovarOrcamento } from '@application/ordem-servico/criacao/aprovar-orcamento.use-case';
 import { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import { DomainError } from '@domain/core/domain-error';
 import { Peca } from '@domain/estoque/peca.aggregate';
 import { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
 import { Dinheiro } from '@domain/value-objects/dinheiro.vo';
 import { Quantidade } from '@domain/value-objects/quantidade.vo';
-import { PublicadorEventosEmMemoria } from '../doubles/publicador-eventos-memoria.test';
+import { PublicadorEventosEmMemoria } from '../../doubles/publicador-eventos-memoria.test';
 import {
   ClienteRepositorioEmMemoria,
   OrdemServicoRepositorioEmMemoria,
   PecaRepositorioEmMemoria,
-} from '../doubles/repositorios-em-memoria.test';
-import { UnitOfWorkEmMemoria } from '../doubles/unit-of-work-em-memoria.test';
+} from '../../doubles/repositorios-em-memoria.test';
+import { UnitOfWorkEmMemoria } from '../../doubles/unit-of-work-em-memoria.test';
 
 const CPF_MARIA = '529.982.247-25';
 const CPF_OUTRO = '111.444.777-35';

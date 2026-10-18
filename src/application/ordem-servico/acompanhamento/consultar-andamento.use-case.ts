@@ -2,7 +2,7 @@ import type { ClienteConsultas } from '@application/cadastro/cliente/cliente-con
 import { NaoEncontradoError } from '@application/core/erros';
 import type { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
 import { CpfCnpj } from '@domain/value-objects/cpf-cnpj.vo';
-import type { OrdemServicoConsultas, OrdemServicoDetalheDto } from './ordem-servico-consultas.port';
+import type { OrdemServicoConsultas, OrdemServicoDetalheDto } from '@application/ordem-servico/ordem-servico-consultas.port';
 
 /** Consulta do cliente (sem JWT): número da OS mais CPF/CNPJ, como em aprovar e rejeitar. */
 export class ConsultarAndamento {

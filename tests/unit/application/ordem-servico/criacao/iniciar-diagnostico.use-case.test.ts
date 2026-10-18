@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
 import { NaoEncontradoError } from '@application/core/erros';
-import { IniciarDiagnostico } from '@application/ordem-servico/iniciar-diagnostico.use-case';
+import { IniciarDiagnostico } from '@application/ordem-servico/criacao/iniciar-diagnostico.use-case';
 import { DomainError } from '@domain/core/domain-error';
 import { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
-import { PublicadorEventosEmMemoria } from '../doubles/publicador-eventos-memoria.test';
-import { OrdemServicoRepositorioEmMemoria  } from '../doubles/repositorios-em-memoria.test';
+import { PublicadorEventosEmMemoria } from '../../doubles/publicador-eventos-memoria.test';
+import { OrdemServicoRepositorioEmMemoria  } from '../../doubles/repositorios-em-memoria.test';
 
 describe('IniciarDiagnostico', () => {
   let ordens: OrdemServicoRepositorioEmMemoria;

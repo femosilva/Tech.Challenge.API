@@ -1,12 +1,12 @@
 import { beforeEach, describe, expect, test } from 'bun:test';
 import { NaoEncontradoError, ReferenciaInvalidaError } from '@application/core/erros';
-import { IncluirServico } from '@application/ordem-servico/incluir-servico.use-case';
+import { IncluirServico } from '@application/ordem-servico/criacao/incluir-servico.use-case';
 import { Servico } from '@domain/catalogo/servico.aggregate';
 import { DomainError } from '@domain/core/domain-error';
 import { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
 import { Dinheiro } from '@domain/value-objects/dinheiro.vo';
-import { PublicadorEventosEmMemoria } from '../doubles/publicador-eventos-memoria.test';
-import { OrdemServicoRepositorioEmMemoria, ServicoRepositorioEmMemoria  } from '../doubles/repositorios-em-memoria.test';
+import { PublicadorEventosEmMemoria } from '../../doubles/publicador-eventos-memoria.test';
+import { OrdemServicoRepositorioEmMemoria, ServicoRepositorioEmMemoria  } from '../../doubles/repositorios-em-memoria.test';
 describe('IncluirServico', () => {
   let ordens: OrdemServicoRepositorioEmMemoria;
   let servicos: ServicoRepositorioEmMemoria;

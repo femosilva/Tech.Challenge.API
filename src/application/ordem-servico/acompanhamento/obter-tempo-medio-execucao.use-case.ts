@@ -1,4 +1,4 @@
-import type { OrdemServicoConsultas, TempoMedioExecucaoDto } from './ordem-servico-consultas.port';
+import type { OrdemServicoConsultas, TempoMedioExecucaoDto } from '@application/ordem-servico/ordem-servico-consultas.port';
 
 export class ObterTempoMedioExecucao {
   constructor(private readonly consultas: OrdemServicoConsultas) {}

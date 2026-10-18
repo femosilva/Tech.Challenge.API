@@ -1,6 +1,6 @@
 import { NaoEncontradoError } from '@application/core/erros';
 import type { OrdemServico } from '@domain/ordem-servico/ordem-servico.aggregate';
-import type { OrdemServicoConsultas, OrdemServicoDetalheDto } from './ordem-servico-consultas.port';
+import type { OrdemServicoConsultas, OrdemServicoDetalheDto } from '@application/ordem-servico/ordem-servico-consultas.port';
 
 export class DetalharOrdemServico {
   constructor(private readonly consultas: OrdemServicoConsultas) {}
