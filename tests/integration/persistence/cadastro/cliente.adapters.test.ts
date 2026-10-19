@@ -4,7 +4,7 @@ import { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import { CpfCnpj } from '@domain/value-objects/cpf-cnpj.vo';
 import { ClienteConsultasAdapter } from '@infrastructure/persistence/cadastro/cliente/cliente-consultas.adapter';
 import { ClienteRepositoryAdapter } from '@infrastructure/persistence/cadastro/cliente/cliente-repository.adapter';
-import { limparBanco, prisma } from '../../../integration/support/banco-de-teste';
+import { limparBanco, prisma } from '../../support/banco-de-teste';
 
 const CPF_ANA = '529.982.247-25';
 const CPF_BIA = '111.444.777-35';

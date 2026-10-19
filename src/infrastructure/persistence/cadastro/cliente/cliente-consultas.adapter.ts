@@ -1,6 +1,6 @@
 import type { ClienteConsultas, ClienteDto } from '@application/cadastro/cliente/cliente-consultas.port';
-import type { Prisma } from '../../generated/client';
-import type { BancoDados } from '../../prisma-client';
+import type { Prisma } from '@infrastructure/persistence/generated/client';
+import type { BancoDados } from '@infrastructure/persistence/prisma-client';
 
 const SELECAO = { id: true, nome: true, documento: true } satisfies Prisma.ClienteSelect;
 

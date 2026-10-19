@@ -1,8 +1,8 @@
 import type { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
 import type { ClienteRepository } from '@domain/cadastro/cliente/cliente.repository';
 import * as ClienteMapper from './cliente.mapper';
-import type { BancoDados } from '../../prisma-client';
-import { comTraducao } from '../../traduzir-erro-banco';
+import type { BancoDados } from '@infrastructure/persistence/prisma-client';
+import { comTraducao } from '@infrastructure/persistence/traduzir-erro-banco';
 
 export class ClienteRepositoryAdapter implements ClienteRepository {
   constructor(private readonly db: BancoDados) {}

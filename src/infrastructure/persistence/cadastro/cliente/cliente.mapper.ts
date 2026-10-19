@@ -1,5 +1,5 @@
 import { Cliente } from '@domain/cadastro/cliente/cliente.aggregate';
-import type { Cliente as ClienteLinha } from '../../generated/client';
+import type { Cliente as ClienteLinha } from '@infrastructure/persistence/generated/client';
 
 /** `restaurar` revalida o documento: linha corrompida no banco falha aqui, não adiante. */
 export function paraDominio(linha: ClienteLinha): Cliente {
