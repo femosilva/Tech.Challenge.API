@@ -19,8 +19,9 @@ export class AprovarOrcamento {
 
       // cada peça é carregada uma vez só: se estivesse em dois itens, o segundo salvar apagaria a primeira baixa.
       const pecas = new Map<Peca['id'], Peca>();
-      for (const { pecaId } of os.itensPeca) {
-        if (pecas.has(pecaId)) continue;
+      // em ordem de id, para duas aprovações que dividem peças nunca se travarem em ordens opostas (deadlock)
+      const idsDasPecas = [...new Set(os.itensPeca.map((item) => item.pecaId))].sort();
+      for (const pecaId of idsDasPecas) {
         const peca = await repos.pecas.buscarPorId({ id: pecaId });
         if (!peca) throw new ConflitoError('Uma peça da OS não existe mais');
         pecas.set(pecaId, peca);

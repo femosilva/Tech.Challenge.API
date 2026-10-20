@@ -12,12 +12,24 @@ const COM_FILHAS = {
 } satisfies Prisma.OrdemServicoInclude;
 
 export class OrdemServicoRepositoryAdapter implements OrdemServicoRepository {
-  constructor(private readonly db: BancoDados) {}
+  constructor(
+      private readonly db: BancoDados,
+      private readonly opcoes: { travar?: boolean } = {},
+    ) {}
 
-  async buscarPorId({ id }: Pick<OrdemServico, 'id'>): Promise<OrdemServico | null> {
-    const linha = await this.db.ordemServico.findUnique({ where: { id }, include: COM_FILHAS });
-    return linha && OrdemServicoMapper.paraDominio(linha);
-  }
+    async buscarPorId({ id }: Pick<OrdemServico, 'id'>): Promise<OrdemServico | null> {
+        // trava antes de ler: em READ COMMITTED, quem esperou o lock lê o estado já confirmado
+        if (this.opcoes.travar) await this.db.$queryRaw`SELECT 1 FROM ordens_servico WHERE id = ${id} FOR UPDATE`;
+        const linha = await this.db.ordemServico.findUnique({ where: { id } });
+        if (!linha) return null;
+        // em sequência de propósito: num `include`, o Prisma carrega as filhas em paralelo, e dentro de uma
+        // transação elas disputariam a mesma conexão (o `pg` já avisa que vai deixar de permitir isso)
+        const itensServico = await this.db.itemServico.findMany({ where: { osId: id }, ...POR_POSICAO });
+        const itensPeca = await this.db.itemPeca.findMany({ where: { osId: id }, ...POR_POSICAO });
+        const historico = await this.db.registroStatus.findMany({ where: { osId: id }, ...POR_POSICAO });
+        return OrdemServicoMapper.paraDominio({ ...linha, itensServico, itensPeca, historico });
+      }
+
 
   /**
    * Um único `upsert` com escrita aninhada: o Prisma o executa de forma atômica, e funciona tanto
