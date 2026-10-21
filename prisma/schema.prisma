@@ -1,0 +1,136 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/infrastructure/persistence/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Cliente {
+  id        String @id
+  nome      String
+  documento String @unique
+
+  veiculos Veiculo[]
+  ordens   OrdemServico[]
+
+  @@map("clientes")
+}
+
+model Veiculo {
+  id        String @id
+  clienteId String @map("cliente_id")
+  placa     String @unique
+  marca     String
+  modelo    String
+  ano       Int
+
+  cliente Cliente        @relation(fields: [clienteId], references: [id], onDelete: Restrict)
+  ordens  OrdemServico[]
+
+  @@index([clienteId])
+  @@map("veiculos")
+}
+
+model Servico {
+  id            String @id
+  nome          String
+  precoCentavos Int    @map("preco_centavos")
+
+  itens ItemServico[]
+
+  @@map("servicos")
+}
+
+model Peca {
+  id            String @id
+  codigo        String @unique
+  nome          String
+  precoCentavos Int    @map("preco_centavos")
+  saldo         Int
+
+  itens ItemPeca[]
+
+  @@map("pecas")
+}
+
+model Usuario {
+  id        String @id
+  email     String @unique
+  senhaHash String @map("senha_hash")
+  papel     String
+
+  @@map("usuarios")
+}
+
+model OrdemServico {
+  id        String @id
+  clienteId String @map("cliente_id")
+  veiculoId String @map("veiculo_id")
+  status    String
+
+  /// Derivada de historico[0]; existe para ordenar a listagem com índice.
+  abertaEm       DateTime  @map("aberta_em") @db.Timestamptz(3)
+  inicioExecucao DateTime? @map("inicio_execucao") @db.Timestamptz(3)
+  fimExecucao    DateTime? @map("fim_execucao") @db.Timestamptz(3)
+
+  /// Orçamento é um VO 1:1: as quatro colunas ficam todas nulas ou todas preenchidas.
+  orcamentoTotalCentavos Int?      @map("orcamento_total_centavos")
+  orcamentoGeradoEm      DateTime? @map("orcamento_gerado_em") @db.Timestamptz(3)
+  orcamentoEnviado       Boolean?  @map("orcamento_enviado")
+  orcamentoDecisao       String?   @map("orcamento_decisao")
+
+  cliente Cliente @relation(fields: [clienteId], references: [id], onDelete: Restrict)
+  veiculo Veiculo @relation(fields: [veiculoId], references: [id], onDelete: Restrict)
+
+  itensServico ItemServico[]
+  itensPeca    ItemPeca[]
+  historico    RegistroStatus[]
+
+  @@index([clienteId])
+  @@index([veiculoId])
+  @@index([abertaEm(sort: Desc)])
+  @@map("ordens_servico")
+}
+
+model ItemServico {
+  osId                  String @map("os_id")
+  posicao               Int
+  servicoId             String @map("servico_id")
+  precoUnitarioCentavos Int    @map("preco_unitario_centavos")
+
+  os      OrdemServico @relation(fields: [osId], references: [id], onDelete: Cascade)
+  servico Servico      @relation(fields: [servicoId], references: [id], onDelete: Restrict)
+
+  @@id([osId, posicao])
+  @@index([servicoId])
+  @@map("itens_servico")
+}
+
+model ItemPeca {
+  osId                  String @map("os_id")
+  posicao               Int
+  pecaId                String @map("peca_id")
+  quantidade            Int
+  precoUnitarioCentavos Int    @map("preco_unitario_centavos")
+
+  os   OrdemServico @relation(fields: [osId], references: [id], onDelete: Cascade)
+  peca Peca         @relation(fields: [pecaId], references: [id], onDelete: Restrict)
+
+  @@id([osId, posicao])
+  @@index([pecaId])
+  @@map("itens_peca")
+}
+
+model RegistroStatus {
+  osId       String   @map("os_id")
+  posicao    Int
+  status     String
+  alteradoEm DateTime @map("alterado_em") @db.Timestamptz(3)
+
+  os OrdemServico @relation(fields: [osId], references: [id], onDelete: Cascade)
+
+  @@id([osId, posicao])
+  @@map("historico_status")
+}
