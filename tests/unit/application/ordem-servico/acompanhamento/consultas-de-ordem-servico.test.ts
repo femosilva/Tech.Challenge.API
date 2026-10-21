@@ -129,10 +129,10 @@ describe('consultas de ordem de serviço', () => {
       const os = await novaOS(em(0));
 
       await expect(consultar.executar({ id: os.id, documento: '111.444.777-35' })).rejects.toThrow(
-        'Não encontrado: Ordem de serviço',
+        'Ordem de serviço não encontrado',
       );
       await expect(consultar.executar({ id: 'nao-existe', documento: CPF_MARIA })).rejects.toThrow(
-        'Não encontrado: Ordem de serviço',
+        'Ordem de serviço não encontrado',
       );
     });
 

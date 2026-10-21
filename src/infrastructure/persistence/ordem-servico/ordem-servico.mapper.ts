@@ -20,8 +20,13 @@ export type OrdemServicoGravacao = { escalares: Omit<OrdemServicoLinha, Filhos> 
   [K in Filhos]: Omit<OrdemServicoLinha[K][number], 'osId'>[];
 };
 
+type ColunasOrcamento = Pick<
+  OrdemServicoLinha,
+  'id' | 'orcamentoTotalCentavos' | 'orcamentoGeradoEm' | 'orcamentoEnviado' | 'orcamentoDecisao'
+>;
+
 /** As quatro colunas do orçamento são todas nulas ou todas preenchidas; meio-termo é dado corrompido. */
-function orcamentoParaDominio(linha: OrdemServicoLinha): Orcamento | undefined {
+export function orcamentoParaDominio(linha: ColunasOrcamento): Orcamento | undefined {
   const { orcamentoTotalCentavos: total, orcamentoGeradoEm: geradoEm, orcamentoEnviado: enviado, orcamentoDecisao: decisao } = linha;
   if (total === null && geradoEm === null && enviado === null && decisao === null) return undefined;
   if (total === null || geradoEm === null || enviado === null || decisao === null) {

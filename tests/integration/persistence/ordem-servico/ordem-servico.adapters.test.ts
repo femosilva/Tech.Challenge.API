@@ -4,8 +4,8 @@ import { Dinheiro } from '@domain/value-objects/dinheiro.vo';
 import { Quantidade } from '@domain/value-objects/quantidade.vo';
 import { Prisma } from '@infrastructure/persistence/generated/client';
 import { OrdemServicoRepositoryAdapter } from '@infrastructure/persistence/ordem-servico/ordem-servico-repository.adapter';
-import { limparBanco, prisma } from '../../../../integration/support/banco-de-teste';
-import { prepararCenario } from '../../../../integration/support/cenario-ordem-servico';
+import { limparBanco, prisma } from '../../support/banco-de-teste';
+import { prepararCenario } from '../../support/cenario-ordem-servico';
 
 const repo = new OrdemServicoRepositoryAdapter(prisma);
 const em = (minutos: number) => new Date(Date.UTC(2026, 0, 10, 10, minutos));
