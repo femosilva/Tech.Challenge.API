@@ -6,12 +6,14 @@
     "dev": "bun run --watch src/index.ts",
     "postinstall": "prisma generate",
     "db:migrate": "bunx --bun prisma migrate dev",
-    "db:deploy": "bunx --bun prisma migrate deploy"
+    "db:deploy": "bunx --bun prisma migrate deploy",
+    "db:seed": "bun scripts/seed.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.10.1",
     "@prisma/client": "7.10.1",
-    "elysia": "latest"
+    "elysia": "latest",
+    "jose": "6.2.13"
   },
   "devDependencies": {
     "bun-types": "latest",
