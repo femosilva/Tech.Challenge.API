@@ -1,55 +1,54 @@
-import { CadastrarCliente } from '@application/cadastro/cliente/cadastrar-cliente.use-case';
-import { ListarClientes } from '@application/cadastro/cliente/listar-clientes.use-case';
-import { ObterCliente } from '@application/cadastro/cliente/obter-cliente.use-case';
-import { RemoverCliente } from '@application/cadastro/cliente/remover-cliente.use-case';
-import { RenomearCliente } from '@application/cadastro/cliente/renomear-cliente.use-case';
-import { AtualizarVeiculo } from '@application/cadastro/veiculo/atualizar-veiculo.use-case';
-import { CadastrarVeiculo } from '@application/cadastro/veiculo/cadastrar-veiculo.use-case';
-import { ListarVeiculosDoCliente } from '@application/cadastro/veiculo/listar-veiculos-do-cliente.use-case';
-import { ListarVeiculos } from '@application/cadastro/veiculo/listar-veiculos.use-case';
-import { ObterVeiculo } from '@application/cadastro/veiculo/obter-veiculo.use-case';
-import { RemoverVeiculo } from '@application/cadastro/veiculo/remover-veiculo.use-case';
-import { AtualizarServico } from '@application/catalogo/atualizar-servico.use-case';
-import { CadastrarServico } from '@application/catalogo/cadastrar-servico.use-case';
-import { ListarServicos } from '@application/catalogo/listar-servicos.use-case';
-import { ObterServico } from '@application/catalogo/obter-servico.use-case';
-import { RemoverServico } from '@application/catalogo/remover-servico.use-case';
-import { AtualizarPeca } from '@application/estoque/atualizar-peca.use-case';
-import { CadastrarPeca } from '@application/estoque/cadastrar-peca.use-case';
-import { ListarPecas } from '@application/estoque/listar-pecas.use-case';
-import { ObterPeca } from '@application/estoque/obter-peca.use-case';
-import { RemoverPeca } from '@application/estoque/remover-peca.use-case';
-import { ReporEstoque } from '@application/estoque/repor-estoque.use-case';
-import { Autenticar } from '@application/identidade/autenticar.use-case';
-import { ConsultarAndamento } from '@application/ordem-servico/acompanhamento/consultar-andamento.use-case';
-import { DetalharOrdemServico } from '@application/ordem-servico/acompanhamento/detalhar-ordem-servico.use-case';
-import { EntregarVeiculo } from '@application/ordem-servico/acompanhamento/entregar-veiculo.use-case';
-import { FinalizarServico } from '@application/ordem-servico/acompanhamento/finalizar-servico.use-case';
-import { ListarOrdensServico } from '@application/ordem-servico/acompanhamento/listar-ordens-servico.use-case';
-import { ObterTempoMedioExecucao } from '@application/ordem-servico/acompanhamento/obter-tempo-medio-execucao.use-case';
-import { AbrirOS } from '@application/ordem-servico/criacao/abrir-os.use-case';
-import { AprovarOrcamento } from '@application/ordem-servico/criacao/aprovar-orcamento.use-case';
-import { EnviarOrcamento } from '@application/ordem-servico/criacao/enviar-orcamento.use-case';
-import { IncluirPeca } from '@application/ordem-servico/criacao/incluir-peca.use-case';
-import { IncluirServico } from '@application/ordem-servico/criacao/incluir-servico.use-case';
-import { IniciarDiagnostico } from '@application/ordem-servico/criacao/iniciar-diagnostico.use-case';
-import { RejeitarOrcamento } from '@application/ordem-servico/criacao/rejeitar-orcamento.use-case';
-import { BunHashSenhaAdapter } from '@infrastructure/auth/bun-hash-senha.adapter';
-import { JwtProvedorTokenAdapter } from '@infrastructure/auth/jwt-provedor-token.adapter';
-import { LogPublicadorEventosAdapter } from '@infrastructure/events/log-publicador-eventos.adapter';
-import { ClienteConsultasAdapter } from '@infrastructure/persistence/cadastro/cliente/cliente-consultas.adapter';
-import { ClienteRepositoryAdapter } from '@infrastructure/persistence/cadastro/cliente/cliente-repository.adapter';
-import { VeiculoConsultasAdapter } from '@infrastructure/persistence/cadastro/veiculo/veiculo-consultas.adapter';
-import { VeiculoRepositoryAdapter } from '@infrastructure/persistence/cadastro/veiculo/veiculo-repository.adapter';
-import { ServicoConsultasAdapter } from '@infrastructure/persistence/catalogo/servico-consultas.adapter';
-import { ServicoRepositoryAdapter } from '@infrastructure/persistence/catalogo/servico-repository.adapter';
-import { PecaConsultasAdapter } from '@infrastructure/persistence/estoque/peca-consultas.adapter';
-import { PecaRepositoryAdapter } from '@infrastructure/persistence/estoque/peca-repository.adapter';
-import { UsuarioRepositoryAdapter } from '@infrastructure/persistence/identidade/usuario-repository.adapter';
-import { OrdemServicoConsultasAdapter } from '@infrastructure/persistence/ordem-servico/ordem-servico-consultas.adapter';
-import { OrdemServicoRepositoryAdapter } from '@infrastructure/persistence/ordem-servico/ordem-servico-repository.adapter';
-import { criarPrismaClient } from '@infrastructure/persistence/prisma-client';
-import { UnitOfWorkAdapter } from '@infrastructure/persistence/unit-of-work.adapter';
+import { CadastrarCliente, ListarClientes, ObterCliente, RemoverCliente, RenomearCliente } from '@application/cadastro/cliente';
+import {
+  AtualizarVeiculo,
+  CadastrarVeiculo,
+  ListarVeiculos,
+  ListarVeiculosDoCliente,
+  ObterVeiculo,
+  RemoverVeiculo,
+} from '@application/cadastro/veiculo';
+import {
+  AtualizarServico,
+  CadastrarServico,
+  ListarServicos,
+  ObterServico,
+  RemoverServico,
+} from '@application/catalogo';
+import {
+  AtualizarPeca,
+  CadastrarPeca,
+  ListarPecas,
+  ObterPeca,
+  RemoverPeca,
+  ReporEstoque,
+} from '@application/estoque';
+import { Autenticar } from '@application/identidade';
+import {
+  ConsultarAndamento,
+  DetalharOrdemServico,
+  EntregarVeiculo,
+  FinalizarServico,
+  ListarOrdensServico,
+  ObterTempoMedioExecucao,
+} from '@application/ordem-servico/acompanhamento';
+import {
+  AbrirOS,
+  AprovarOrcamento,
+  EnviarOrcamento,
+  IncluirPeca,
+  IncluirServico,
+  IniciarDiagnostico,
+  RejeitarOrcamento,
+} from '@application/ordem-servico/criacao';
+import { BunHashSenhaAdapter, JwtProvedorTokenAdapter } from '@infrastructure/auth';
+import { LogPublicadorEventosAdapter } from '@infrastructure/events';
+import { criarPrismaClient, UnitOfWorkAdapter } from '@infrastructure/persistence';
+import { ClienteConsultasAdapter, ClienteRepositoryAdapter } from '@infrastructure/persistence/cadastro/cliente';
+import { VeiculoConsultasAdapter, VeiculoRepositoryAdapter } from '@infrastructure/persistence/cadastro/veiculo';
+import { ServicoConsultasAdapter, ServicoRepositoryAdapter } from '@infrastructure/persistence/catalogo';
+import { PecaConsultasAdapter, PecaRepositoryAdapter } from '@infrastructure/persistence/estoque';
+import { UsuarioRepositoryAdapter } from '@infrastructure/persistence/identidade';
+import { OrdemServicoConsultasAdapter, OrdemServicoRepositoryAdapter } from '@infrastructure/persistence/ordem-servico';
 import type { ConfigAmbiente } from './config-ambiente';
 
 /**
