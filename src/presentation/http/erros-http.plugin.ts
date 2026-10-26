@@ -5,16 +5,11 @@ import {
   ReferenciaInvalidaError,
 } from '@application/core/erros';
 import { DomainError } from '@domain/core/domain-error';
-import { Elysia, ValidationError } from 'elysia';
+import { Elysia, type Static, ValidationError } from 'elysia';
+import type { erroResposta } from './erro.schema';
 
 /** Formato único de erro da API; vale também para o 401 e o 403 do guard. */
-export type CorpoErro = {
-  erro: {
-    codigo: string;
-    mensagem: string;
-    detalhes?: { campo: string; mensagem: string }[];
-  };
-};
+export type CorpoErro = Static<typeof erroResposta>;
 
 type Traducao = { status: number; corpo: CorpoErro };
 type Logar = (erro: unknown) => void;
@@ -27,9 +22,13 @@ const STATUS_POR_ERRO: ReadonlyArray<readonly [abstract new (...args: never[]) =
   [CredenciaisInvalidasError, 401],
 ];
 
-const traducao = (status: number, codigo: string, mensagem: string, detalhes?: CorpoErro['erro']['detalhes']): Traducao => ({
+export const corpoErro = (codigo: string, mensagem: string, detalhes?: CorpoErro['erro']['detalhes']): CorpoErro => ({
+  erro: { codigo, mensagem, ...(detalhes && { detalhes }) },
+});
+
+const traducao = (status: number, ...args: Parameters<typeof corpoErro>): Traducao => ({
   status,
-  corpo: { erro: { codigo, mensagem, ...(detalhes && { detalhes }) } },
+  corpo: corpoErro(...args),
 });
 
 function traduzir(code: string | number, error: unknown, logar: Logar): Traducao {
