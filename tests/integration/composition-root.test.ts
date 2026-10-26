@@ -6,8 +6,8 @@ import { UsuarioRepositoryAdapter } from '@infrastructure/persistence/identidade
 import { semearUsuariosDemo } from '@infrastructure/persistence/identidade/usuarios-demo.seed';
 import { jwtVerify } from 'jose';
 import { compor } from '../../src/composition-root';
-import { limparBanco, prisma } from '../integration/support/banco-de-teste';
-import { CPF_ANA, CPF_BIA, inserirOrdem } from '../integration/support/dados-de-teste';
+import { limparBanco, prisma } from './support/banco-de-teste';
+import { CPF_ANA, CPF_BIA, inserirOrdem } from './support/dados-de-teste';
 
 const SEGREDO = 'segredo-de-teste-com-mais-de-32-caracteres';
 // O publicador captura `console.info` ao ser construído: o espião precisa existir antes do `compor`.
