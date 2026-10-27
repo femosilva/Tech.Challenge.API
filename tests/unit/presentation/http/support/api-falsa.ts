@@ -7,7 +7,8 @@ export const JWT_DE_TESTE: ConfigGuardJwt = { segredo: 'segredo-do-teste-com-bem
 
 export const CLIENTE = { id: 'c-1', nome: 'Ana Souza', documento: '52998224725' };
 export const VEICULO = { id: 'v-1', clienteId: 'c-1', placa: 'ABC1D23', marca: 'Volkswagen', modelo: 'Gol', ano: 2020 };
-
+export const SERVICO = { id: 's-1', nome: 'Troca de óleo', precoCentavos: 15000 };
+export const PECA = { id: 'p-1', codigo: 'FO-001', nome: 'Filtro de óleo', precoCentavos: 4000, saldo: 10 };
 const falso = <R>(resultado: R) => ({ executar: mock(async (..._args: unknown[]) => resultado) });
 
 /** Casos de uso falsos com resposta válida: o que se testa aqui é a camada HTTP, não a regra de negócio. */
@@ -25,6 +26,18 @@ export function criarCasosFalsos() {
     listarVeiculos: falso([VEICULO]),
     obterVeiculo: falso(VEICULO),
     removerVeiculo: falso(undefined),
+
+    cadastrarServico: falso({ id: 's-1' }),
+    atualizarServico: falso(undefined),
+    listarServicos: falso([SERVICO]),
+    obterServico: falso(SERVICO),
+    removerServico: falso(undefined),
+    cadastrarPeca: falso({ id: 'p-1' }),
+    atualizarPeca: falso(undefined),
+    listarPecas: falso([PECA]),
+    obterPeca: falso(PECA),
+    removerPeca: falso(undefined),
+    reporEstoque: falso(undefined),
   } satisfies CasosDeUso;
 }
 

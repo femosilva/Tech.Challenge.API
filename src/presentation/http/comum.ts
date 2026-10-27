@@ -32,3 +32,9 @@ export function criado({ request, set }: ContextoCriacao, { id }: { id: string }
 export function semConteudo(set: { status?: number | string }): void {
   set.status = 204;
 }
+/**
+ * Limite do `Int` de 32 bits do Postgres (preço e saldo). O domínio aceita qualquer inteiro não negativo:
+ * acima disto o valor passaria nele e estouraria no banco, virando 500 em vez de 400.
+ */
+export const LIMITE_INT_DO_BANCO = 2_147_483_647;
+export const inteiroDoBanco = (opcoes?: Parameters<typeof t.Number>[0]) => inteiro({ ...opcoes, maximum: LIMITE_INT_DO_BANCO });

@@ -1,13 +1,15 @@
 import { openapi } from '@elysiajs/openapi';
 import { type CasosClientes, clientesRoutes } from '@presentation/http/cadastro/cliente.routes';
 import { type CasosVeiculos, veiculosRoutes } from '@presentation/http/cadastro/veiculo.routes';
+import { type CasosServicos, servicosRoutes } from '@presentation/http/catalogo/servico.routes';
+import { type CasosPecas, pecasRoutes } from '@presentation/http/estoque/peca.routes';
 import { type CasosIdentidade, identidadeRoutes } from '@presentation/http/identidade/auth.routes';
 import { Elysia, t } from 'elysia';
 import { authGuard, type ConfigGuardJwt } from './auth.guard';
 import { errosHttpPlugin } from './erros-http.plugin';
 
 /** Cresce com as rotas: cada contexto declara o que usa e entra aqui na interseção. */
-export type CasosDeUso = CasosIdentidade & CasosClientes & CasosVeiculos;
+export type CasosDeUso = CasosIdentidade & CasosClientes & CasosVeiculos & CasosServicos & CasosPecas;
 
 export function criarApp(casos: CasosDeUso, jwt: ConfigGuardJwt) {
   const guard = authGuard(jwt);
@@ -29,6 +31,8 @@ export function criarApp(casos: CasosDeUso, jwt: ConfigGuardJwt) {
             { name: 'Autenticação', description: 'Login das APIs administrativas' },
             { name: 'Clientes', description: 'Cadastro de clientes e consulta dos seus veículos' },
             { name: 'Veículos', description: 'Cadastro de veículos' },
+            { name: 'Serviços', description: 'Catálogo de serviços e preços' },
+            { name: 'Peças', description: 'Peças e insumos, com controle de estoque' },
           ],
           components: {
             securitySchemes: { bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' } },
@@ -42,7 +46,12 @@ export function criarApp(casos: CasosDeUso, jwt: ConfigGuardJwt) {
       detail: { tags: ['Sistema'], summary: 'Verifica se o processo está de pé' },
     })
     .group('/api/v1', (v1) =>
-      v1.use(identidadeRoutes(casos)).use(clientesRoutes(casos, guard)).use(veiculosRoutes(casos, guard)),
+      v1
+        .use(identidadeRoutes(casos))
+        .use(clientesRoutes(casos, guard))
+        .use(veiculosRoutes(casos, guard))
+        .use(servicosRoutes(casos, guard))
+        .use(pecasRoutes(casos, guard)),
     );
 }
 
