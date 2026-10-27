@@ -11,12 +11,11 @@ import { compor } from '../../../src/composition-root';
 import { limparBanco, prisma } from '../support/banco-de-teste';
 
 const SEGREDO = 'segredo-de-teste-com-mais-de-32-caracteres';
-const { prisma: prismaDaComposicao, casos } = compor({
+const { prisma: prismaDaComposicao, casos, guardJwt } = compor({
   databaseUrl: process.env.TEST_DATABASE_URL!,
   jwt: { segredo: SEGREDO, expiracao: '1h' },
 });
-const app = criarApp(casos);
-
+const app = criarApp(casos, guardJwt);
 // rota protegida só para provar que o token emitido pelo login é aceito pelo guard
 const rotaProtegida = new Elysia()
   .use(authGuard({ segredo: SEGREDO, algoritmo: ALGORITMO_JWT }))

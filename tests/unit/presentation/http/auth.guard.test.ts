@@ -104,12 +104,16 @@ describe('authGuard', () => {
     expect(await resposta.json()).toEqual({ ok: true });
   });
 
-  it('põe o cadeado no OpenAPI só nas rotas protegidas', async () => {
-    const resposta = await app.handle(new Request('http://localhost/openapi/json'));
-    const spec = (await resposta.json()) as { paths: Record<string, { get: { security?: unknown } }> };
+  it('põe o cadeado e as respostas 401 e 403 no OpenAPI só nas rotas protegidas', async () => {
+      const resposta = await app.handle(new Request('http://localhost/openapi/json'));
+      const spec = (await resposta.json()) as {
+        paths: Record<string, { get: { security?: unknown; responses?: Record<string, unknown> } }>;
+      };
 
-    expect(spec.paths['/admin']!.get.security).toEqual([{ bearerAuth: [] }]);
-    expect(spec.paths['/equipe']!.get.security).toEqual([{ bearerAuth: [] }]);
-    expect(spec.paths['/livre']!.get.security).toBeUndefined();
-  });
+      expect(spec.paths['/admin']!.get.security).toEqual([{ bearerAuth: [] }]);
+      expect(spec.paths['/equipe']!.get.security).toEqual([{ bearerAuth: [] }]);
+      expect(spec.paths['/livre']!.get.security).toBeUndefined();
+      expect(Object.keys(spec.paths['/admin']!.get.responses!)).toEqual(['401', '403']);
+      expect(spec.paths['/livre']!.get.responses).toBeUndefined();
+    });
 });

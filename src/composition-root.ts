@@ -40,7 +40,7 @@ import {
   IniciarDiagnostico,
   RejeitarOrcamento,
 } from '@application/ordem-servico/criacao';
-import { BunHashSenhaAdapter, JwtProvedorTokenAdapter } from '@infrastructure/auth';
+import { BunHashSenhaAdapter, JwtProvedorTokenAdapter, ALGORITMO_JWT } from '@infrastructure/auth';
 import { LogPublicadorEventosAdapter } from '@infrastructure/events';
 import { criarPrismaClient, UnitOfWorkAdapter } from '@infrastructure/persistence';
 import { ClienteConsultasAdapter, ClienteRepositoryAdapter } from '@infrastructure/persistence/cadastro/cliente';
@@ -53,6 +53,7 @@ import type { ConfigAmbiente } from './config-ambiente';
 
 /**
  * Único lugar que conhece a Infrastructure: cria os adapters e entrega os casos de uso prontos.
+* `guardJwt` leva à Presentation o segredo e o algoritmo com que os tokens são emitidos.
  * Quem chama é dono do `prisma` devolvido (é ele que dá o `$disconnect` ao encerrar).
  */
 export function compor({ databaseUrl, jwt }: Pick<ConfigAmbiente, 'databaseUrl' | 'jwt'>) {
@@ -119,5 +120,5 @@ export function compor({ databaseUrl, jwt }: Pick<ConfigAmbiente, 'databaseUrl' 
     autenticar: new Autenticar(usuarios, hash, tokens),
   };
 
-  return { prisma, casos };
+  return { prisma, casos, guardJwt: { segredo: jwt.segredo, algoritmo: ALGORITMO_JWT } };
 }

@@ -3,8 +3,8 @@ import { compor } from './composition-root';
 import { lerConfigAmbiente } from './config-ambiente';
 
 const config = lerConfigAmbiente();
-const { prisma, casos } = compor(config);
-const app = criarApp(casos).listen(config.porta);
+const { prisma, casos, guardJwt } = compor(config);
+const app = criarApp(casos, guardJwt).listen(config.porta);
 
 console.log(`API no ar na porta ${app.server?.port} (documentação em /openapi)`);
 

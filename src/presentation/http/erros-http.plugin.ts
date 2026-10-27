@@ -32,7 +32,8 @@ const traducao = (status: number, ...args: Parameters<typeof corpoErro>): Traduc
 });
 
 function traduzir(code: string | number, error: unknown, logar: Logar): Traducao {
-  if (error instanceof ValidationError) {
+  // Validação de `response` é bug do servidor, não do cliente: cai no 500 (com log), abaixo.
+  if (error instanceof ValidationError && error.type !== 'response') {
     // Só campo e mensagem: `value` (o dado enviado) não volta na resposta.
     const detalhes = error.all.map((falha) => ({
       campo: `${error.type}${falha.path}`,

@@ -12,7 +12,7 @@ import { CPF_ANA, CPF_BIA, inserirOrdem } from './support/dados-de-teste';
 const SEGREDO = 'segredo-de-teste-com-mais-de-32-caracteres';
 // O publicador captura `console.info` ao ser construído: o espião precisa existir antes do `compor`.
 const eventos = spyOn(console, 'info').mockImplementation(() => {});
-const { prisma: prismaDaComposicao, casos } = compor({
+const { prisma: prismaDaComposicao, casos, guardJwt } = compor({
   // o banco-de-teste já garantiu que a URL existe e termina em _test
   databaseUrl: process.env.TEST_DATABASE_URL!,
   jwt: { segredo: SEGREDO, expiracao: '1h' },
@@ -101,5 +101,8 @@ describe('compor', () => {
     const { id: biaId } = await casos.cadastrarCliente.executar({ nome: 'Bia', documento: CPF_BIA });
     await inserirOrdem({ clienteId: biaId, veiculoId });
     await expect(casos.removerCliente.executar({ id: biaId })).rejects.toMatchObject({ message: 'Cliente possui ordens de serviço' });
+  });
+  it('entrega ao guard da Presentation o mesmo segredo e algoritmo com que os tokens são emitidos', () => {
+    expect(guardJwt).toEqual({ segredo: SEGREDO, algoritmo: ALGORITMO_JWT });
   });
 });
