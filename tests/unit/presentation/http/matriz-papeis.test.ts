@@ -8,18 +8,22 @@ import { pecasRoutes } from '@presentation/http/estoque/peca.routes';
 import { Elysia } from 'elysia';
 import { criarRequisitor } from '../../../integration/support/http';
 import { criarApiFalsa, criarCasosFalsos, JWT_DE_TESTE } from './support/api-falsa';
+import { metricasRoutes } from '@presentation/http/ordem-servico/metricas.routes';
+import { ordensServicoRoutes } from '@presentation/http/ordem-servico/ordem-servico.routes';
 
 // A matriz está escrita por extenso de propósito: se alguém mexer em papeis.ts, este teste acusa.
 const TODOS: readonly Papel[] = ['ATENDENTE', 'MECANICO', 'ADMINISTRADOR'];
 const CONSULTA: readonly Papel[] = ['ATENDENTE', 'MECANICO', 'ADMINISTRADOR'];
 const BALCAO: readonly Papel[] = ['ATENDENTE', 'ADMINISTRADOR'];
 const SO_ADMIN: readonly Papel[] = ['ADMINISTRADOR'];
+const EQUIPE: readonly Papel[] = ['ATENDENTE', 'MECANICO', 'ADMINISTRADOR'];
+const MECANICOS: readonly Papel[] = ['MECANICO', 'ADMINISTRADOR'];
 
 const CLIENTE_NOVO = { nome: 'Ana Souza', documento: '529.982.247-25' };
 const VEICULO_NOVO = { clienteId: 'c-1', placa: 'ABC1D23', marca: 'Volkswagen', modelo: 'Gol', ano: 2020 };
 const SERVICO_NOVO = { nome: 'Troca de óleo', precoCentavos: 15000 };
 const PECA_NOVA = { codigo: 'FO-001', nome: 'Filtro de óleo', precoCentavos: 4000, saldoInicial: 10 };
-
+const ORDEM_NOVA = { documento: '529.982.247-25', placa: 'ABC1D23' };
 type Linha = { metodo: string; caminho: string; corpo?: unknown; ok: number; permitidos: readonly Papel[] };
 const MATRIZ: Linha[] = [
   { metodo: 'POST', caminho: '/api/v1/clientes', corpo: CLIENTE_NOVO, ok: 201, permitidos: BALCAO },
@@ -44,6 +48,16 @@ const MATRIZ: Linha[] = [
   { metodo: 'PATCH', caminho: '/api/v1/pecas/p-1', corpo: { nome: 'Filtro de ar' }, ok: 204, permitidos: SO_ADMIN },
   { metodo: 'DELETE', caminho: '/api/v1/pecas/p-1', ok: 204, permitidos: SO_ADMIN },
   { metodo: 'POST', caminho: '/api/v1/pecas/p-1/reposicoes', corpo: { quantidade: 5 }, ok: 204, permitidos: SO_ADMIN },
+  { metodo: 'POST', caminho: '/api/v1/ordens-servico', corpo: ORDEM_NOVA, ok: 201, permitidos: BALCAO },
+  { metodo: 'GET', caminho: '/api/v1/ordens-servico', ok: 200, permitidos: CONSULTA },
+  { metodo: 'GET', caminho: '/api/v1/ordens-servico/o-1', ok: 200, permitidos: CONSULTA },
+  { metodo: 'POST', caminho: '/api/v1/ordens-servico/o-1/servicos', corpo: { servicoId: 's-1' }, ok: 204, permitidos: EQUIPE },
+  { metodo: 'POST', caminho: '/api/v1/ordens-servico/o-1/pecas', corpo: { pecaId: 'p-1', quantidade: 2 }, ok: 204, permitidos: EQUIPE },
+  { metodo: 'POST', caminho: '/api/v1/ordens-servico/o-1/iniciar-diagnostico', ok: 204, permitidos: MECANICOS },
+  { metodo: 'POST', caminho: '/api/v1/ordens-servico/o-1/enviar-orcamento', ok: 204, permitidos: BALCAO },
+  { metodo: 'POST', caminho: '/api/v1/ordens-servico/o-1/finalizar', ok: 204, permitidos: MECANICOS },
+  { metodo: 'POST', caminho: '/api/v1/ordens-servico/o-1/entregar', ok: 204, permitidos: BALCAO },
+  { metodo: 'GET', caminho: '/api/v1/metricas/tempo-medio-execucao', ok: 200, permitidos: SO_ADMIN },
 ];
 
 describe('matriz de papéis da API', () => {
@@ -76,6 +90,8 @@ describe('cada plugin de rotas se protege sozinho, sem depender da ordem de mont
     { nome: 'veículos', montar: (casos, guard) => veiculosRoutes(casos, guard), prefixo: '/api/v1/veiculos' },
     { nome: 'serviços', montar: (casos, guard) => servicosRoutes(casos, guard), prefixo: '/api/v1/servicos' },
     { nome: 'peças', montar: (casos, guard) => pecasRoutes(casos, guard), prefixo: '/api/v1/pecas' },
+    { nome: 'ordens de serviço', montar: (casos, guard) => ordensServicoRoutes(casos, guard), prefixo: '/api/v1/ordens-servico' },
+    { nome: 'métricas', montar: (casos, guard) => metricasRoutes(casos, guard), prefixo: '/api/v1/metricas' },
   ];
 
   for (const { nome, montar, prefixo } of plugins) {

@@ -4,12 +4,25 @@ import { type CasosVeiculos, veiculosRoutes } from '@presentation/http/cadastro/
 import { type CasosServicos, servicosRoutes } from '@presentation/http/catalogo/servico.routes';
 import { type CasosPecas, pecasRoutes } from '@presentation/http/estoque/peca.routes';
 import { type CasosIdentidade, identidadeRoutes } from '@presentation/http/identidade/auth.routes';
+import {
+  acompanhamentoClienteRoutes,
+  type CasosAcompanhamentoCliente,
+} from '@presentation/http/ordem-servico/acompanhamento-cliente.routes';
+import { type CasosMetricas, metricasRoutes } from '@presentation/http/ordem-servico/metricas.routes';
+import { type CasosOrdensServico, ordensServicoRoutes } from '@presentation/http/ordem-servico/ordem-servico.routes';
 import { Elysia, t } from 'elysia';
 import { authGuard, type ConfigGuardJwt } from './auth.guard';
 import { errosHttpPlugin } from './erros-http.plugin';
 
 /** Cresce com as rotas: cada contexto declara o que usa e entra aqui na interseção. */
-export type CasosDeUso = CasosIdentidade & CasosClientes & CasosVeiculos & CasosServicos & CasosPecas;
+export type CasosDeUso = CasosIdentidade &
+  CasosClientes &
+  CasosVeiculos &
+  CasosServicos &
+  CasosPecas &
+  CasosOrdensServico &
+  CasosAcompanhamentoCliente &
+  CasosMetricas;
 
 export function criarApp(casos: CasosDeUso, jwt: ConfigGuardJwt) {
   const guard = authGuard(jwt);
@@ -33,6 +46,9 @@ export function criarApp(casos: CasosDeUso, jwt: ConfigGuardJwt) {
             { name: 'Veículos', description: 'Cadastro de veículos' },
             { name: 'Serviços', description: 'Catálogo de serviços e preços' },
             { name: 'Peças', description: 'Peças e insumos, com controle de estoque' },
+            { name: 'Ordens de Serviço', description: 'Abertura, itens, orçamento e andamento (equipe da oficina)' },
+            { name: 'Acompanhamento do cliente', description: 'Rotas públicas: o cliente acompanha e decide o orçamento' },
+            { name: 'Métricas', description: 'Indicadores da operação' },
           ],
           components: {
             securitySchemes: { bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' } },
@@ -51,7 +67,10 @@ export function criarApp(casos: CasosDeUso, jwt: ConfigGuardJwt) {
         .use(clientesRoutes(casos, guard))
         .use(veiculosRoutes(casos, guard))
         .use(servicosRoutes(casos, guard))
-        .use(pecasRoutes(casos, guard)),
+        .use(pecasRoutes(casos, guard))
+        .use(ordensServicoRoutes(casos, guard))
+        .use(acompanhamentoClienteRoutes(casos))
+        .use(metricasRoutes(casos, guard))
     );
 }
 

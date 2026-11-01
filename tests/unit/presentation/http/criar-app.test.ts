@@ -7,6 +7,7 @@ type Operacao = {
   tags: string[];
   description?: string;
   security?: unknown;
+  parameters?: { in: string; name: string; required?: boolean }[];
   responses: Record<string, unknown>;
 };
 type Spec = {
@@ -57,9 +58,21 @@ describe("criarApp", () => {
       });
       expect(Object.keys(spec.paths).sort()).toEqual([
         "/api/v1/auth/login",
+        "/api/v1/cliente/ordens-servico/{id}",
+        "/api/v1/cliente/ordens-servico/{id}/orcamento/aprovar",
+        "/api/v1/cliente/ordens-servico/{id}/orcamento/rejeitar",
         "/api/v1/clientes",
         "/api/v1/clientes/{id}",
         "/api/v1/clientes/{id}/veiculos",
+        "/api/v1/metricas/tempo-medio-execucao",
+        "/api/v1/ordens-servico",
+        "/api/v1/ordens-servico/{id}",
+        "/api/v1/ordens-servico/{id}/entregar",
+        "/api/v1/ordens-servico/{id}/enviar-orcamento",
+        "/api/v1/ordens-servico/{id}/finalizar",
+        "/api/v1/ordens-servico/{id}/iniciar-diagnostico",
+        "/api/v1/ordens-servico/{id}/pecas",
+        "/api/v1/ordens-servico/{id}/servicos",
         "/api/v1/pecas",
         "/api/v1/pecas/{id}",
         "/api/v1/pecas/{id}/reposicoes",
@@ -76,6 +89,9 @@ describe("criarApp", () => {
         "Veículos",
         "Serviços",
         "Peças",
+        "Ordens de Serviço",
+        "Acompanhamento do cliente",
+        "Métricas",
       ]);
     });
 
@@ -89,10 +105,13 @@ describe("criarApp", () => {
             operacao,
           })),
       );
+      const publicas = ["/health", "/api/v1/auth/login"];
       const protegidas = operacoes.filter(
         ({ caminho }) =>
-          caminho !== "/health" && caminho !== "/api/v1/auth/login",
+          !publicas.includes(caminho) &&
+          !caminho.startsWith("/api/v1/cliente/"),
       );
+      expect(protegidas).toHaveLength(32);
 
       expect(protegidas).toHaveLength(22);
       expect(spec.components.securitySchemes).toHaveProperty("bearerAuth");
@@ -111,7 +130,28 @@ describe("criarApp", () => {
         );
       }
     });
+    it("as rotas do cliente ficam fora do cadeado e documentam o cabeçalho X-Documento", async () => {
+      const { spec } = await lerSpec();
+      const rotasDoCliente = Object.entries(spec.paths).filter(([caminho]) =>
+        caminho.startsWith("/api/v1/cliente/"),
+      );
 
+      expect(rotasDoCliente).toHaveLength(3);
+      for (const [caminho, metodos] of rotasDoCliente) {
+        for (const operacao of Object.values(metodos)) {
+          expect([caminho, operacao.security]).toEqual([caminho, undefined]);
+          expect(operacao.tags).toEqual(["Acompanhamento do cliente"]);
+          expect(
+            operacao.parameters?.some(
+              (parametro) =>
+                parametro.in === "header" &&
+                parametro.name === "x-documento" &&
+                parametro.required,
+            ),
+          ).toBe(true);
+        }
+      }
+    });
     it("health e login ficam fora do cadeado", async () => {
       const { spec } = await lerSpec();
 
