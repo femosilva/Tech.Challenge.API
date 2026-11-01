@@ -6,8 +6,8 @@ import { veiculosRoutes } from '@presentation/http/cadastro/veiculo.routes';
 import { servicosRoutes } from '@presentation/http/catalogo/servico.routes';
 import { pecasRoutes } from '@presentation/http/estoque/peca.routes';
 import { Elysia } from 'elysia';
-import { criarRequisitor } from '../../../../integration/support/http';
-import { criarApiFalsa, criarCasosFalsos, JWT_DE_TESTE } from '../support/api-falsa';
+import { criarRequisitor } from '../../../integration/support/http';
+import { criarApiFalsa, criarCasosFalsos, JWT_DE_TESTE } from './support/api-falsa';
 
 // A matriz está escrita por extenso de propósito: se alguém mexer em papeis.ts, este teste acusa.
 const TODOS: readonly Papel[] = ['ATENDENTE', 'MECANICO', 'ADMINISTRADOR'];

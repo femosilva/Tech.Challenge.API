@@ -60,13 +60,13 @@ describe("criarApp", () => {
         "/api/v1/clientes",
         "/api/v1/clientes/{id}",
         "/api/v1/clientes/{id}/veiculos",
-        "/api/v1/veiculos",
-        "/api/v1/veiculos/{id}",
         "/api/v1/pecas",
         "/api/v1/pecas/{id}",
         "/api/v1/pecas/{id}/reposicoes",
         "/api/v1/servicos",
         "/api/v1/servicos/{id}",
+        "/api/v1/veiculos",
+        "/api/v1/veiculos/{id}",
         "/health",
       ]);
       expect(spec.tags.map((tag) => tag.name)).toEqual([
