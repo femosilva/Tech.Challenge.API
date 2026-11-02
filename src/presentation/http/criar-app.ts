@@ -33,6 +33,7 @@ export function criarApp(casos: CasosDeUso, jwt: ConfigGuardJwt) {
     .use(errosHttpPlugin())
     .use(
       openapi({
+        scalar: { version: '1.75.0' },
         documentation: {
           info: {
             title: 'API da Oficina Mecânica',

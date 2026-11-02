@@ -174,7 +174,11 @@ describe("criarApp", () => {
 
       expect(resposta.status).toBe(200);
       expect(resposta.headers.get("content-type")).toContain("text/html");
-      expect(await resposta.text()).toContain("scalar");
+      const html = await resposta.text();
+      expect(html).toContain("scalar");
+      // o script da interface vem de CDN: a versão tem de estar fixada, nunca `latest`
+      expect(html).toContain("@scalar/api-reference@1.75.0/");
+      expect(html).not.toContain("@latest");
     });
   });
 

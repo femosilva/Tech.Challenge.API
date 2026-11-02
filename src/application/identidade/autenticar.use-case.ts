@@ -14,10 +14,9 @@ export class Autenticar {
   async executar(input: Autenticar.Input): Promise<Autenticar.Output> {
     const usuario = await this.usuarios.buscarPorEmail({ email: input.email.trim().toLowerCase() });
 
-    // Mesmo erro para e-mail desconhecido e senha errada: a API não revela qual falhou.
-    if (!usuario || !(await this.hash.comparar(input.senha, usuario.senhaHash))) {
-      throw new CredenciaisInvalidasError();
-    }
+    // Compara sempre, mesmo sem usuário: e-mail desconhecido e senha errada dão o mesmo erro e levam o mesmo tempo.
+    const confere = await this.hash.comparar(input.senha, usuario?.senhaHash ?? null);
+    if (!usuario || !confere) throw new CredenciaisInvalidasError();
 
     return { token: await this.tokens.emitir({ sub: usuario.id, papel: usuario.papel }) };
   }
