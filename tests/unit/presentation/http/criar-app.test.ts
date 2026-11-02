@@ -112,8 +112,6 @@ describe("criarApp", () => {
           !caminho.startsWith("/api/v1/cliente/"),
       );
       expect(protegidas).toHaveLength(32);
-
-      expect(protegidas).toHaveLength(22);
       expect(spec.components.securitySchemes).toHaveProperty("bearerAuth");
       for (const { caminho, metodo, operacao } of protegidas) {
         const rotulo = `${metodo.toUpperCase()} ${caminho}`;
