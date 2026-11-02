@@ -1,3 +1,4 @@
+# API em http://localhost:3000 · documentação em http://localhost:3000/openapi
 services:
   db:
     image: postgres:16-alpine
@@ -14,6 +15,37 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+
+  # Executa uma vez e termina: aplica as migrations e semeia os três usuários de demonstração.
+  migrate:
+    build:
+      context: .
+      target: migrate
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/oficina
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: 'no'
+
+  api:
+    build:
+      context: .
+      target: app
+    init: true
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/oficina
+      JWT_SECRET: ${JWT_SECRET:?Defina JWT_SECRET no arquivo .env (mínimo de 32 caracteres)}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1h}
+      PORT: 3000
+    ports:
+      - '${PORT:-3000}:3000'
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
 
 volumes:
   pgdata:
