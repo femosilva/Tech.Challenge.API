@@ -216,7 +216,7 @@ final do `bun test`.
 | Integração | `tests/integration/presentation` | API de ponta a ponta: OS completa, aprovação com baixa de estoque, rejeição, estoque insuficiente, vínculos e permissões |
 
 **Cobertura mínima de 80% de linhas**: o `bunfig.toml` falha a execução abaixo desse limite. Na última medição, a cobertura de
-linhas foi de **98,11%** (`[PREENCHER: atualizar com o valor do commit da entrega]`).
+linhas foi de **98,11%**.
 
 ## 8. Documentação da API (Swagger)
 
@@ -405,7 +405,7 @@ Os quadros do Miro seguem a ordem: 1 a 3 (Event Storming), 4 (contextos), 5 (cic
 
 ## 13. Vídeo da entrega
 
-▶ **[PREENCHER]**
+▶ **(https://youtu.be/B7STB9HZiys)**
 
 ## 14. Segurança
 
