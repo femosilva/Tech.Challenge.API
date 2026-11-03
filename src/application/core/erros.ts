@@ -8,7 +8,7 @@ export abstract class ApplicationError extends Error {
 
 export class NaoEncontradoError extends ApplicationError {
   constructor(recurso: string) {
-    super(`não encontrado: ${recurso} `);
+    super(`${recurso} não encontrado`);
   }
 }
 

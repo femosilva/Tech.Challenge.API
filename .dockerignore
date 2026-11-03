@@ -1,0 +1,13 @@
+.git
+node_modules
+coverage
+.env
+.env.*
+!.env.example
+tests
+docs
+*.md
+Dockerfile
+docker-compose.yml
+# o client do Prisma é gerado dentro da imagem
+src/infrastructure/persistence/generated

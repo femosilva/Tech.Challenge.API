@@ -96,8 +96,10 @@ describe('AprovarOrcamento com o UnitOfWork real', () => {
     const ordens = [];
     for (let i = 0; i < 8; i++) ordens.push(await salvarOsAguardandoAprovacao(cenario, [{ peca: filtro, quantidade: 1 }]));
 
-    await Promise.all(ordens.map((os) => aprovar.executar({ id: os.id, documento: CPF_ANA })));
+    // allSettled: espera todas terminarem mesmo que alguma falhe, para uma falha não vazar transações para o próximo teste
+    const resultados = await Promise.allSettled(ordens.map((os) => aprovar.executar({ id: os.id, documento: CPF_ANA })));
 
+    expect(resultados.filter((r) => r.status === 'rejected')).toEqual([]);
     expect(await saldoDe(filtro.id)).toBe(12);
     expect(await prisma.ordemServico.count({ where: { status: 'EM_EXECUCAO' } })).toBe(8);
   });
@@ -124,6 +126,7 @@ describe('AprovarOrcamento com o UnitOfWork real', () => {
     const primeira = await salvarPeca('PNE-01', 100);
     const segunda = await salvarPeca('PNE-02', 100);
     const RODADAS = 10; // sem a ordenação das peças, cerca de 80% das rodadas terminam em deadlock
+    const rejeitadas: PromiseSettledResult<void>[] = [];
 
     for (let i = 0; i < RODADAS; i++) {
       const a = await salvarOsAguardandoAprovacao(cenario, [
@@ -134,12 +137,14 @@ describe('AprovarOrcamento com o UnitOfWork real', () => {
         { peca: segunda, quantidade: 1 },
         { peca: primeira, quantidade: 1 },
       ]);
-      await Promise.all([
+      const resultados = await Promise.allSettled([
         aprovar.executar({ id: a.id, documento: CPF_ANA }),
         aprovar.executar({ id: b.id, documento: CPF_ANA }),
       ]);
+      rejeitadas.push(...resultados.filter((r) => r.status === 'rejected'));
     }
 
+    expect(rejeitadas).toEqual([]);
     expect(await saldoDe(primeira.id)).toBe(100 - 2 * RODADAS);
     expect(await saldoDe(segunda.id)).toBe(100 - 2 * RODADAS);
   });

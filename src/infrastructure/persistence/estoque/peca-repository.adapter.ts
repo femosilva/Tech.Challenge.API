@@ -7,16 +7,16 @@ import * as PecaMapper from './peca.mapper';
 export class PecaRepositoryAdapter implements PecaRepository {
   /** `travar`: dentro de uma transação, `buscarPorId` segura a linha (FOR UPDATE) até o commit. */
   constructor(
-      private readonly db: BancoDados,
-      private readonly opcoes: { travar?: boolean } = {},
-    ) {}
+    private readonly db: BancoDados,
+    private readonly opcoes: { travar?: boolean } = {},
+  ) {}
 
-    async buscarPorId({ id }: Pick<Peca, 'id'>): Promise<Peca | null> {
-       // trava antes de ler: o saldo lido por quem esperou o lock já inclui a baixa de quem passou antes
-       if (this.opcoes.travar) await this.db.$queryRaw`SELECT 1 FROM pecas WHERE id = ${id} FOR UPDATE`;
-       const linha = await this.db.peca.findUnique({ where: { id } });
-       return linha && PecaMapper.paraDominio(linha);
-     }
+  async buscarPorId({ id }: Pick<Peca, 'id'>): Promise<Peca | null> {
+    // trava antes de ler: o saldo lido por quem esperou o lock já inclui a baixa de quem passou antes
+    if (this.opcoes.travar) await this.db.$queryRaw`SELECT 1 FROM pecas WHERE id = ${id} FOR UPDATE`;
+    const linha = await this.db.peca.findUnique({ where: { id } });
+    return linha && PecaMapper.paraDominio(linha);
+  }
 
   async buscarPorCodigo({ codigo }: Pick<Peca, 'codigo'>): Promise<Peca | null> {
     const linha = await this.db.peca.findUnique({ where: { codigo } });

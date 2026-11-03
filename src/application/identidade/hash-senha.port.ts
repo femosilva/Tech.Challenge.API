@@ -1,3 +1,7 @@
 export interface HashSenha {
-  comparar(senha: string, hash: string): Promise<boolean>;
+  /**
+   * `hash` nulo quer dizer "usuário inexistente": o adapter gasta o mesmo tempo de uma verificação real e
+   * devolve false, para o tempo da resposta não revelar quais e-mails estão cadastrados.
+   */
+  comparar(senha: string, hash: string | null): Promise<boolean>;
 }

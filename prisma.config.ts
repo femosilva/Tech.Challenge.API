@@ -1,8 +1,10 @@
+import { existsSync } from 'node:fs';
 import { defineConfig } from 'prisma/config';
+
+if (existsSync('.env')) process.loadEnvFile?.('.env');
 
 export default defineConfig({
   schema: 'prisma/schema.prisma',
   migrations: { path: 'prisma/migrations' },
-  // Sem env(): ele lança se a variável faltar, e o `generate` (postinstall, CI) não precisa de banco.
   datasource: { url: process.env.DATABASE_URL ?? '' },
 });
